@@ -1,20 +1,35 @@
 <template>
   <div class="SignupForm">
     <h1>Je crée mon compte</h1>
-    <form @submit="checkform" action="http://localhost:8080/home" method="post">
+    <form @submit.prevent="onSubmit" enctype="multipart/form-data">
       <p>
         <label for="last_name">Nom</label>
-        <input id="last_name" type="text" v-model="last_name" name="last_name" />
+        <input
+          id="last_name"
+          type="text"
+          v-model="last_name"
+          name="last_name"
+        />
       </p>
 
       <p>
         <label for="first_name">Prénom</label>
-        <input id="first_name" type="text" v-model="first_name" name="first_name" />
+        <input
+          id="first_name"
+          type="text"
+          v-model="first_name"
+          name="first_name"
+        />
       </p>
 
       <p>
-        <label for="service">Service</label>
-        <input id="service" type="text" v-model="service" name="service" />
+        <label for="gp_service">Service</label>
+        <input
+          id="gp_service"
+          type="text"
+          v-model="gp_service"
+          name="gp_service"
+        />
       </p>
 
       <p>
@@ -23,13 +38,18 @@
       </p>
 
       <p>
-        <label for="login">Login</label>
-        <input id="login" type="text" v-model="login" name="login" />
+        <label for="gp_login">Login</label>
+        <input id="gp_login" type="text" v-model="gp_login" name="gp_login" />
       </p>
 
       <p>
         <label for="gp_password">Mot de passe</label>
-        <input id="gp_password" type="text" v-model="gp_password" name="gp_password" />
+        <input
+          id="gp_password"
+          type="text"
+          v-model="gp_password"
+          name="gp_password"
+        />
       </p>
 
       <p>
@@ -40,33 +60,41 @@
 </template>
 
 <script>
+import http from "../../../http-common";
+
 export default {
   name: "SignupForm",
   data: function() {
     return {
-      errors: [],
-      last_name: null,
-      first_name: null,
-      service: null,
-      email: null,
-      login: null,
-      bp_password: null
+      last_name: "",
+      first_name: "",
+      gp_service: "",
+      email: "",
+      gp_login: "",
+      gp_password: "",
     };
   },
   methods: {
-    checkForm: function(e) {
-      if (
-        this.last_name &&
-        this.first_name &&
-        this.service &&
-        this.email &&
-        this.login &&
-        this.bp_password
-      ) {
-        return true;
-      }
-      e.preventDefault();
-    }
-  }
+    onSubmit() {
+      const data = {
+        last_name: this.last_name,
+        first_name: this.first_name,
+        gp_service: this.gp_service,
+        email: this.email,
+        gp_login: this.gp_login,
+        gp_password: this.gp_password,
+      };
+      http
+        .post("/auth/signup", data)
+        .then((response) => {
+          this.$router.push("Home");
+          this.users = response.data;
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+  },
 };
 </script>
