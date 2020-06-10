@@ -5,10 +5,9 @@
 </template>
 
 <script>
-import axios from('axios');
-export default {
-    name:"AccountUser",
-  
-    }
+import http from "../../http-common";
 
+export default {
+  name: "AccountUser"
+};
 </script>
