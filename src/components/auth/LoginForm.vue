@@ -1,30 +1,29 @@
 <template>
-  <div>
-    <h1>J'ai déjà un compte</h1>
+  <div id="LoginForm" class="col-md-12">
+    <div class="card card-container">
+      <h1>J'ai déjà un compte</h1>
 
-    <form @submit.prevent="onSubmit">
-      <p>
-        <label for="email">Email</label>
-        <input id="email" type="text" v-model="email" name="email" />
-      </p>
+      <form @submit.prevent="onSubmit">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input id="email" type="text" v-model="email" name="email" />
+        </div>
 
-      <p>
-        <label for="gpPassword">Mot de passe</label>
-        <input id="gpPassword" type="text" v-model="gpPassword" name="gpPassword" />
-      </p>
+        <div class="form-group">
+          <label for="gpPassword">Mot de passe</label>
+          <input id="gpPassword" type="text" required v-model="gpPassword" name="gpPassword" />
+        </div>
 
-      <p>
-        <input type="submit" value="Submit" />
-      </p>
-    </form>
+        <div class="form-group">
+          <input type="submit" required value="Submit" />
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
-import http from "../../../http-common";
-import Vue from "vue";
-import VueSession from "vue-session";
-Vue.use(VueSession);
+import { AUTH_REQUEST } from "../../store/actions/auth";
 
 export default {
   name: "LoginForm",
@@ -36,30 +35,46 @@ export default {
   },
   methods: {
     onSubmit() {
-      const dataLogin = {
-        email: this.email,
-        gpPassword: this.gpPassword
-      };
-      http
-        .post("/auth/login", dataLogin)
-        .then(
-          function(response) {
-            if (response.status === 200 && "token" in response.body) {
-              this.$session.start();
-              this.$session.set("jwt", response.body.token);
-              Vue.http.headers.common["Authorization"] =
-                "Bearer" + response.body.token;
-              this.$router.push("Home");
-            }
-          },
-          function(err) {
-            console.log("err", err);
-          }
-        )
-        .catch(e => {
-          console.log(e);
-        });
+      const { email, gpPassword } = this;
+      this.$store.dispatch(AUTH_REQUEST, { email, gpPassword }).then(() => {
+        this.$router.push("/dashboard");
+      });
     }
   }
 };
 </script>
+
+<style scoped>
+label {
+  display: block;
+  margin-top: 10px;
+}
+
+.card-container.card {
+  max-width: 350px !important;
+  padding: 40px 40px;
+}
+
+.card {
+  background-color: #f7f7f7;
+  padding: 20px 25px 30px;
+  margin: 0 auto 25px;
+  margin-top: 50px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+}
+
+.profile-img-card {
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 10px;
+  display: block;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+</style>

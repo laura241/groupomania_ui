@@ -1,13 +1,21 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/home">Home</router-link>|
-      <router-link to="/account">Account</router-link>|
-      <router-link to="/forum">Forum</router-link>
+    <div class="nav main-container">
+      <router-view />
     </div>
-    <router-view />
   </div>
 </template>
+<script>
+import { USER_REQUEST } from "./store/actions/user";
+export default {
+  name: "App",
+  created: function() {
+    if (this.$store.getters.isAuthenticated) {
+      this.$store.dispatch(USER_REQUEST);
+    }
+  }
+};
+</script>
 
 <style>
 #app {

@@ -1,102 +1,78 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import Router from 'vue-router';
+import Home from '../views/Home.vue';
+import Login from '../views/Login.vue';
+import Register from '../views/Register.vue';
+import store from "../store";
 
+Vue.use(Router);
 
+const ifNotAuthenticated = (to, from, next) => {
+  if (!store.getters.isAuthenticated) {
+    next();
+    return;
+  }
+  next("/");
+};
 
-Vue.use(VueRouter)
+const ifAuthenticated = (to, from, next) => {
+  if (store.getters.isAuthenticated) {
+    next();
+    return;
+  }
+  next("/login");
+};
+
 
 const routes = [{
-    path: '/',
-    name: 'Home',
-    component: () => import('../views/Home.vue')
+    path: "/",
+    name: "Home",
+    component: Home
+  },
+  {
+    path: '/home',
+    component: Home
   }, {
-    path: '/login',
-    name: 'login',
-    component: () => import('../views/Login.vue'),
-    meta: {
-      guest: true
-    }
+    path: "/login",
+    component: Login,
+    beforeEnter: ifNotAuthenticated
   },
   {
-    path: '/register',
-    name: 'register',
-    component: () => import('../views/Register.vue'),
-    meta: {
-      guest: true
-    }
+    path: "/register",
+    component: Register,
+    beforeEnter: ifNotAuthenticated
   },
 
   {
-    path: '/dashboard',
-    name: 'userBoard',
-    component: () => import('../views/UserBoard.vue'),
-    meta: {
-      requiresAuth: true
-    }
+    path: "/dashboard",
+    name: "userBoard",
+    beforeEnter: ifAuthenticated,
+    component: () => import("../views/UserBoard.vue"),
   },
   {
-    path: '/dashboard/account',
-    name: 'userCount',
-    component: () => import('../views/UserAccount.vue'),
-    meta: {
-      requiresAuth: true
-    }
+    path: "/dashboard/account",
+    name: "userCount",
+    beforeEnter: ifAuthenticated,
+    component: () => import("../views/UserAccount.vue")
   },
   {
-    path: '/dashboard/admin',
-    name: 'admin',
-    component: () => import('../views/UserAdmin.vue'),
-    meta: {
-      requiresAuth: true
-    }
+    path: "/dashboard/admin",
+    name: "admin",
+    beforeEnter: ifAuthenticated,
+    component: () => import("../views/UserAdmin.vue"),
   },
   {
-    path: '/dashboard/forum',
-    name: 'Forum',
-    component: () => import('../views/Forum.vue')
-  }
-]
+    path: "/dashboard/forum",
+    name: "Forum",
+    beforeEnter: ifAuthenticated,
+    component: () => import("../views/Forum.vue"),
+  },
+];
 
-const router = new VueRouter({
-  mode: 'history',
+const router = new Router({
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (localStorage.getItem('jwt') == null) {
-      next({
-        path: '/login',
-        params: {
-          nextUrl: to.fullPath
-        }
-      })
-    } else {
-      let user = JSON.parse(localStorage.getItem('user'))
-      if (to.matched.some(record => record.meta.is_admin)) {
-        if (user.is_admin == 1) {
-          next()
-        } else {
-          next({
-            name: 'userboard'
-          })
-        }
-      } else {
-        next()
-      }
-    }
-  } else if (to.matched.some(record => record.meta.guest)) {
-    if (localStorage.getItem('jwt') == null) {
-      next()
-    } else {
-      next({
-        name: 'userboard'
-      })
-    }
-  } else {
-    next()
-  }
-})
-
-export default router
+export default router;
