@@ -28,10 +28,7 @@ const actions = {
     }) => {
         commit(USER_REQUEST);
         http
-            .get("/auth/:user", {
-                email: this.email,
-                gpPassword: this.gpPassword
-            })
+            .get("/auth/:user")
             .then(resp => {
                 commit(USER_SUCCESS, resp);
             })

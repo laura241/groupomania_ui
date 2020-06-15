@@ -13,8 +13,8 @@ import http from "../../../http-common";
 import Axios from "axios";
 
 const state = {
-    isAuthenticated: state => !!state.token,
-    authStatus: state => state.status
+    token: localStorage.getItem('token') || '',
+    status: '',
 };
 
 const getters = {
@@ -39,12 +39,13 @@ const actions = {
                     gpPassword: gpPassword
 
                 })
-                .then(resp => {
-                    localStorage.setItem("token", resp.token);
-                    Axios.defaults.headers.common['Authorization'] = resp.token
-                    commit(AUTH_SUCCESS, resp);
+                .then(response => {
+                    const token = response.data.token
+                    localStorage.setItem("token", token);
+                    Axios.defaults.headers.common['Authorization'] = token
+                    commit(AUTH_SUCCESS, token);
                     dispatch(USER_REQUEST);
-                    resolve(resp);
+                    resolve(response);
                 })
                 .catch(err => {
                     commit(AUTH_ERROR, err);
@@ -55,11 +56,11 @@ const actions = {
         });
     },
     [AUTH_LOGOUT]: ({
-        commit
+        commit,
     }) => {
-        return new Promise(resolve => {
+        return new Promise((resolve) => {
             commit(AUTH_LOGOUT);
-            localStorage.removeItem("jwt");
+            localStorage.removeItem("token");
             resolve();
         });
     }
@@ -69,14 +70,12 @@ const mutations = {
     [AUTH_REQUEST]: state => {
         state.status = "loading";
     },
-    [AUTH_SUCCESS]: (state, resp) => {
+    [AUTH_SUCCESS]: (state, token) => {
         state.status = "success";
-        state.token = resp.token;
-        state.hasLoadedOnce = true;
+        state.token = token;
     },
     [AUTH_ERROR]: state => {
         state.status = "error";
-        state.hasLoadedOnce = true;
     },
     [AUTH_LOGOUT]: state => {
         state.token = "";

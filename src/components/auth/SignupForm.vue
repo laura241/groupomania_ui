@@ -67,6 +67,7 @@
 
 <script>
 import http from "../../../http-common";
+import { AUTH_REQUEST } from "../../store/actions/auth";
 
 export default {
   name: "SignupForm",
@@ -95,23 +96,13 @@ export default {
       ) {
         http
           .post("/auth/signup", data)
-          .then(
-            response => response.user,
-            http
-              .post("/auth/login", {
-                email: this.email,
-                gpPassword: this.gpPassword
-              })
-              .then(response => {
-                const token = response.token;
-                const userId = JSON.stringify(response.userId);
-                localStorage.setItem("userId", userId),
-                  localStorage.setItem("jwt", token),
-                  this.$router.push("/dashboard");
-              })
-          )
+          .then(() => {
+            const { email, gpPassword } = this;
+            this.$store.dispatch(AUTH_REQUEST, { email, gpPassword });
+            this.$router.push("/dashboard");
+          })
           .catch(error => {
-            localStorage.removeItem("userId", "jwt");
+            localStorage.removeItem("token");
             {
               error;
             }
