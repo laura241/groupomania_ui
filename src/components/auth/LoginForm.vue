@@ -11,7 +11,7 @@
 
         <div class="form-group">
           <label for="gpPassword">Mot de passe</label>
-          <input id="gpPassword" type="text" required v-model="gpPassword" name="gpPassword" />
+          <input id="gpPassword" type="password" required v-model="gpPassword" name="gpPassword" />
         </div>
 
         <div class="form-group">

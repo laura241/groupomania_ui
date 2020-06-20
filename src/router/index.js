@@ -7,72 +7,67 @@ import store from "../store";
 
 Vue.use(Router);
 
+
 const ifNotAuthenticated = (to, from, next) => {
   if (!store.getters.isAuthenticated) {
-    next();
-    return;
+    next()
+    return
   }
-  next("/");
-};
+  next('/')
+}
 
 const ifAuthenticated = (to, from, next) => {
   if (store.getters.isAuthenticated) {
-    next();
-    return;
+    next()
+    return
   }
-  next("/dashboard");
-};
+  next('/dashboard')
+}
 
+export default new Router({
+  mode: 'history',
+  routes: [{
+      path: "/",
+      name: "Home",
+      component: Home
+    },
+    {
+      path: '/home',
+      component: Home
+    }, {
+      path: "/login",
+      component: Login,
+      beforeEnter: ifNotAuthenticated,
+    },
+    {
+      path: "/register",
+      component: Register,
+      beforeEnter: ifNotAuthenticated,
+    },
 
-const routes = [{
-    path: "/",
-    name: "Home",
-    component: Home
-  },
-  {
-    path: '/home',
-    component: Home
-  }, {
-    path: "/login",
-    component: Login,
-    beforeEnter: ifNotAuthenticated
-  },
-  {
-    path: "/register",
-    component: Register,
-    beforeEnter: ifNotAuthenticated
-  },
-
-  {
-    path: "/dashboard",
-    name: "userBoard",
-    beforeEnter: ifAuthenticated,
-    component: () => import("../views/UserBoard.vue"),
-  },
-  {
-    path: "/dashboard/account",
-    name: "userCount",
-    beforeEnter: ifAuthenticated,
-    component: () => import("../views/UserAccount.vue")
-  },
-  {
-    path: "/dashboard/admin",
-    name: "admin",
-    beforeEnter: ifAuthenticated,
-    component: () => import("../views/UserAdmin.vue"),
-  },
-  {
-    path: "/dashboard/forum",
-    name: "Forum",
-    beforeEnter: ifAuthenticated,
-    component: () => import("../views/Forum.vue"),
-  },
-];
-
-const router = new Router({
-  mode: "history",
-  base: process.env.BASE_URL,
-  routes,
-});
-
-export default router;
+    {
+      path: "/dashboard",
+      name: "userBoard",
+      beforeEnter: ifAuthenticated,
+      component: () => import("../views/UserBoard.vue"),
+    },
+    {
+      path: "/dashboard/account/:userId",
+      name: "userCount",
+      beforeEnter: ifAuthenticated,
+      component: () => import("../views/UserAccount.vue")
+    },
+    {
+      path: "/dashboard/admin",
+      name: "admin",
+      beforeEnter: ifAuthenticated,
+      component: () => import("../views/UserAdmin.vue"),
+    },
+    {
+      path: "/dashboard/forum",
+      name: "Forum",
+      beforeEnter: ifAuthenticated,
+      component: () => import("../views/Forum.vue"),
+    },
+  ]
+})

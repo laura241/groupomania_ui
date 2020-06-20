@@ -5,54 +5,43 @@ import {
     AUTH_LOGOUT
 } from "../actions/auth";
 
-import {
-    USER_REQUEST
-} from "../actions/user";
 
-import http from "../../../http-common";
-import Axios from "axios";
+import axios from "axios";
 
 const state = {
-    token: localStorage.getItem('token') || '',
+    token: localStorage.getItem('userToken') || '',
     status: '',
 };
 
 const getters = {
     isAuthenticated: state => !!state.token,
-    authStatus: state => state.status
+    authStatus: state => state.status,
 };
 
 const actions = {
     [AUTH_REQUEST]: ({
-        commit,
-        dispatch
-    }, {
-        email,
-        gpPassword
-    }) => {
+        commit
+    }, user) => {
         return new Promise((resolve, reject) => {
             commit(AUTH_REQUEST);
-            http
-                .post("/auth/login", {
-
-                    email: email,
-                    gpPassword: gpPassword
-
+            axios({
+                    url: 'http://localhost:3000/api/auth/login',
+                    data: user,
+                    method: 'POST'
                 })
-                .then(response => {
-                    const token = response.data.token
-                    localStorage.setItem("token", token);
-                    Axios.defaults.headers.common['Authorization'] = token
-                    commit(AUTH_SUCCESS, token);
-                    dispatch(USER_REQUEST);
-                    resolve(response);
+                .then(resp => {
+                    const token = resp.data.token;
+                    console.log(token)
+                    localStorage.setItem('userToken', token);
+                    axios.defaults.headers.common['Authorization'] = token
+                    commit(AUTH_SUCCESS, token), user;
+                    resolve(resp)
                 })
                 .catch(err => {
                     commit(AUTH_ERROR, err);
-                    localStorage.removeItem("token");
+                    localStorage.removeItem('userToken')
                     reject(err);
                 });
-
         });
     },
     [AUTH_LOGOUT]: ({
@@ -60,24 +49,25 @@ const actions = {
     }) => {
         return new Promise((resolve) => {
             commit(AUTH_LOGOUT);
-            localStorage.removeItem("token");
+            localStorage.removeItem('userToken');
+            delete axios.defaults.headers.common['Authorization']
             resolve();
         });
     }
 };
 
 const mutations = {
-    [AUTH_REQUEST]: state => {
+    [AUTH_REQUEST]: (state) => {
         state.status = "loading";
     },
     [AUTH_SUCCESS]: (state, token) => {
         state.status = "success";
         state.token = token;
     },
-    [AUTH_ERROR]: state => {
+    [AUTH_ERROR]: (state) => {
         state.status = "error";
     },
-    [AUTH_LOGOUT]: state => {
+    [AUTH_LOGOUT]: (state) => {
         state.token = "";
     }
 };

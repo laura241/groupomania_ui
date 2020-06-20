@@ -7,22 +7,17 @@
 </template>
 <script>
 import axios from "axios";
-import { USER_REQUEST } from "./store/actions/user";
 import { AUTH_LOGOUT } from "./store/actions/auth";
 
 export default {
   name: "App",
-  created: function() {
-    if (this.$store.getters.isAuthenticated) {
-      this.$store.dispatch(USER_REQUEST);
-    }
-  },
   function() {
     axios.interceptors.response.use(undefined, function(err) {
       return new Promise(function() {
         if (err.status === 401 && err.config && !err.config._isRetryRequest) {
           this.$store.dispatch(AUTH_LOGOUT);
         }
+        throw err;
       });
     });
   }

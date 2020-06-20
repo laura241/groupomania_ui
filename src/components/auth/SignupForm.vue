@@ -5,56 +5,27 @@
       <form @submit.prevent="onSubmit">
         <div class="form-group">
           <label for="lastName">Nom</label>
-          <input
-            id="lastName"
-            type="text"
-            v-validate="'required|min:2|max:30'"
-            v-model="lastName"
-            name="lastName"
-          />
+          <input id="lastName" type="text" v-model="lastName" name="lastName" />
         </div>
 
         <div class="form-group">
           <label for="firstName">Prénom</label>
-          <input
-            id="firstName"
-            type="text"
-            v-validate="'required|min:2|max:30'"
-            v-model="firstName"
-            name="firstName"
-          />
+          <input id="firstName" type="text" v-model="firstName" name="firstName" />
         </div>
 
         <div class="form-group">
           <label for="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            v-validate="'required|email|max:50'"
-            v-model="email"
-            name="email"
-          />
+          <input id="email" type="email" v-model="email" name="email" />
         </div>
 
         <div class="form-group">
           <label for="gpPassword">Mot de passe</label>
-          <input
-            id="gpPassword"
-            type="password"
-            v-validate="'required|min:6|max:40'"
-            v-model="gpPassword"
-            name="gpPassword"
-          />
+          <input id="gpPassword" type="password" v-model="gpPassword" name="gpPassword" />
         </div>
 
         <div class="form-group">
           <label for="passwordConfirm">Confirmez votre mot de passe</label>
-          <input
-            id="passwordConfirm"
-            type="password"
-            v-validate="'required|min:6|max:40'"
-            v-model="passwordConfirm"
-          />
+          <input id="passwordConfirm" type="password" v-model="passwordConfirm" />
         </div>
 
         <div class="form-group">
@@ -99,8 +70,8 @@ export default {
           .then(() => {
             const { email, gpPassword } = this;
             this.$store.dispatch(AUTH_REQUEST, { email, gpPassword });
-            this.$router.push("/dashboard");
           })
+          .then(() => this.$router.push("/dashboard"))
           .catch(error => {
             localStorage.removeItem("token");
             {
