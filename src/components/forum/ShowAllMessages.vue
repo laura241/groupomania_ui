@@ -1,39 +1,26 @@
 <template>
-  <div id="AddNewMessage">
-    <form @submit.prevent="onSubmit">
-      <div class="form-group">
-        <label for="message">Ecrire un nouveau post</label>
-        <input id="message" type="text" v-model="message" name="message" />
-        <button type="submit" value="Submit">Envoyer</button>
+  <div id="ShowAllMessages">
+    <div class="columns medium-4">
+      <div class="card">
+        <p>{{messages}}</p>
       </div>
-    </form>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 export default {
-  name: "AddNewMessage",
+  name: "ShowAllMessages",
   data: function() {
     return {
-      newMessage: ""
+      results: []
     };
   },
-  methods: {
-    onSubmit() {
-      const userId = localStorage.getItem("userId");
-      const message = {
-        message: this.message,
-        userId: userId
-      };
-      axios({
-        url: "http://localhost:3000/api/messages",
-        data: message,
-        method: "POST"
-      }).catch(error => {
-        console.log(error);
-      });
-    }
+  mounted() {
+    axios.get("http://localhost:3000/api/messages").then(response => {
+      this.results = response.data;
+    });
   }
 };
 </script>
@@ -69,7 +56,3 @@ label {
   border-radius: 50%;
 }
 </style>
-
-
-
-

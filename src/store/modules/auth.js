@@ -10,12 +10,16 @@ import axios from "axios";
 
 const state = {
     token: localStorage.getItem('userToken') || '',
+    user: localStorage.getItem('user') || '',
+    firstName: localStorage.getItem('firstName') || '',
     status: '',
 };
 
 const getters = {
     isAuthenticated: state => !!state.token,
     authStatus: state => state.status,
+    userAuthenticated: state => state.userId,
+    firstName: state => state.firstName,
 };
 
 const actions = {
@@ -31,8 +35,12 @@ const actions = {
                 })
                 .then(resp => {
                     const token = resp.data.token;
+                    const userId = resp.data.userId;
+                    const firstName = resp.data.firstName;
                     console.log(token)
                     localStorage.setItem('userToken', token);
+                    localStorage.setItem('userId', userId);
+                    localStorage.setItem('firstName', firstName);
                     axios.defaults.headers.common['Authorization'] = token
                     commit(AUTH_SUCCESS, token), user;
                     resolve(resp)
@@ -40,6 +48,8 @@ const actions = {
                 .catch(err => {
                     commit(AUTH_ERROR, err);
                     localStorage.removeItem('userToken')
+                    localStorage.removeItem('userId')
+                    localStorage.removeItem('firstName')
                     reject(err);
                 });
         });
@@ -50,6 +60,8 @@ const actions = {
         return new Promise((resolve) => {
             commit(AUTH_LOGOUT);
             localStorage.removeItem('userToken');
+            localStorage.removeItem('userId');
+            localStorage.removeItem('firstName')
             delete axios.defaults.headers.common['Authorization']
             resolve();
         });
@@ -60,15 +72,19 @@ const mutations = {
     [AUTH_REQUEST]: (state) => {
         state.status = "loading";
     },
-    [AUTH_SUCCESS]: (state, token) => {
+    [AUTH_SUCCESS]: (state, token, userId, firstName) => {
         state.status = "success";
         state.token = token;
+        state.userId = userId;
+        state.firstName = firstName;
     },
     [AUTH_ERROR]: (state) => {
         state.status = "error";
     },
     [AUTH_LOGOUT]: (state) => {
         state.token = "";
+        state.userId = "";
+        state.firstName = "";
     }
 };
 

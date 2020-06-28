@@ -1,10 +1,13 @@
 <template>
-  <div class="account">
-    <h1>Mon compte utilisateur</h1>
-    <p></p>
+  <div>
+    <User />
   </div>
 </template>
 
+
 <script>
-export default {};
+import User from "@/components/User.vue";
+export default {
+  components: { User }
+};
 </script>

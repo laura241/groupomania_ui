@@ -39,7 +39,6 @@
 <script>
 import http from "../../../http-common";
 import { AUTH_REQUEST } from "../../store/actions/auth";
-
 export default {
   name: "SignupForm",
   data: function() {
@@ -59,7 +58,6 @@ export default {
         email: this.email,
         gpPassword: this.gpPassword
       };
-
       e.preventDefault();
       if (
         this.gpPassword === this.passwordConfirm &&
@@ -89,12 +87,10 @@ label {
   display: block;
   margin-top: 10px;
 }
-
 .card-container.card {
   max-width: 350px !important;
   padding: 40px 40px;
 }
-
 .card {
   background-color: #f7f7f7;
   padding: 20px 25px 30px;
@@ -107,7 +103,6 @@ label {
   -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
 }
-
 .profile-img-card {
   width: 96px;
   height: 96px;

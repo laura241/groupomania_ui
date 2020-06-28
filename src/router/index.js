@@ -52,8 +52,8 @@ export default new Router({
       component: () => import("../views/UserBoard.vue"),
     },
     {
-      path: "/dashboard/account/:userId",
-      name: "userCount",
+      path: "/dashboard/account",
+      name: "userAccount",
       beforeEnter: ifAuthenticated,
       component: () => import("../views/UserAccount.vue")
     },
