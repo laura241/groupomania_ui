@@ -16,7 +16,7 @@ export default {
   name: "AddNewMessage",
   data: function() {
     return {
-      newMessage: ""
+      message: ""
     };
   },
   methods: {

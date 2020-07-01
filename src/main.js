@@ -2,17 +2,15 @@ import Vue from 'vue';
 import store from './store';
 import router from './router';
 import App from './App.vue';
-import axios from 'axios'
+import '../axiosHelper'
+import './apiReddit'
 
 Vue.config.productionTip = false
 
+
 new Vue({
+  el: '#app',
   router,
   store,
   render: h => h(App)
-}).$mount('#app')
-
-const token = localStorage.getItem('userToken')
-if (token) {
-  axios.defaults.headers.common['Authorization'] = token
-}
+});

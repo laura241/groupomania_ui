@@ -41,7 +41,7 @@ const actions = {
                     localStorage.setItem('userToken', token);
                     localStorage.setItem('userId', userId);
                     localStorage.setItem('firstName', firstName);
-                    axios.defaults.headers.common['Authorization'] = token
+                    axios.defaults.headers.common['Authorization'] = 'Bearer' + token
                     commit(AUTH_SUCCESS, token), user;
                     resolve(resp)
                 })
