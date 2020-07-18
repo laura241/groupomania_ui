@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="Menu">
     <div>
       <router-link to="/register">Créer un compte</router-link>|
       <router-link to="/login">Se connecter</router-link>|

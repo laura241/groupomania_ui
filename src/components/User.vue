@@ -1,23 +1,45 @@
 <template>
-  <div>
-    <div class="User">
-      <h1>Bienvenue sur votre compte</h1>
+  <div id="ShowAllMessages">
+    <div class="card card-container">
+      <table>
+        <tr v-for="(u, i) in user" :key="u+i">
+          <td>{{u.lastName}}</td>
+          <td>{{u.firstName}}</td>
+          <td>{{u.email}}</td>
+        </tr>
+      </table>
     </div>
   </div>
 </template>
 
 <script>
-import { getters } from "../store";
+import axios from "axios";
 export default {
-  data: function() {
+  name: "User",
+  data() {
     return {
-      user: this.firstName
+      user: []
     };
   },
-  computed: {
-    ...getters({
-      firstName: "firstName"
-    })
+  mounted() {
+    const userId = localStorage.getItem("userId");
+    const token = localStorage.getItem("userToken");
+    axios
+      .request({
+        url: "/auth/" + userId,
+        data: {
+          userId: userId
+        },
+        method: "get",
+        headers: {
+          Authorization: token
+        }
+      })
+      .then(response => {
+        this.user = response.data;
+        console.log(response);
+      })
+      .catch(error => console.error(error));
   }
 };
 </script>

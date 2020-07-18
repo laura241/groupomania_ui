@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import http from "../../../http-common";
+import { mainAxios } from "../../../http-common";
 import { AUTH_REQUEST } from "../../store/actions/auth";
 export default {
   name: "SignupForm",
@@ -63,7 +63,7 @@ export default {
         this.gpPassword === this.passwordConfirm &&
         this.gpPassword.length > 0
       ) {
-        http
+        mainAxios
           .post("/auth/signup", data)
           .then(() => {
             const { email, gpPassword } = this;

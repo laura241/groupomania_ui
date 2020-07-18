@@ -11,7 +11,8 @@
 </template>
 
 <script>
-import axios from "axios";
+import { mainAxios } from "../../../http-common";
+
 export default {
   name: "AddNewMessage",
   data: function() {
@@ -26,7 +27,7 @@ export default {
         message: this.message,
         userId: userId
       };
-      axios({
+      mainAxios({
         url: "http://localhost:3000/api/messages",
         data: message,
         method: "POST"
@@ -69,7 +70,4 @@ label {
   border-radius: 50%;
 }
 </style>
-
-
-
 

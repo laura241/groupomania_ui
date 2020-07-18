@@ -69,5 +69,12 @@ export default new Router({
       beforeEnter: ifAuthenticated,
       component: () => import("../views/Forum.vue"),
     },
+    {
+      path: '/a',
+      name: "Reddit",
+      component: () => {
+        window.location = "https://www.reddit.com/api/v1/authorize?client_id=51U71a7A1LknxA&response_type=code&state=RANDOM_STRING&redirect_uri=http://localhost:8080/dashboard/forum&duration=permanent&scope=privatemessages identity"
+      }
+    }
   ]
 })
