@@ -2,10 +2,11 @@
   <div id="ShowAllMessages">
     <div class="card card-container">
       <table>
-        <tr v-for="(m, i) in message" :key="m+i">
-          <td>{{m.lastName}}</td>
-          <td>{{m.message}}</td>
-          <td>{{m.createdAt}}</td>
+        <tr v-for="(p, i) in post" :key="p+i">
+          <td>{{p.user.firstName}}</td>
+          <td>{{p.user.lastName}}</td>
+          <td>{{p.post}}</td>
+          <td>{{p.createdAt}}</td>
         </tr>
       </table>
     </div>
@@ -17,27 +18,26 @@ import { mainAxios } from "../../../http-common";
 
 //import AllUsers from "../forum/AllUsers";
 export default {
-  name: "ShowAllMessages",
+  name: "ShowAllPosts",
   //components: { AllUsers },
 
   data() {
     return {
-      message: []
+      post: []
     };
   },
   mounted() {
     const token = localStorage.getItem("userToken");
     mainAxios
       .request({
-        url: "/messages",
+        url: "/posts",
         method: "get",
         headers: {
           Authorization: token
         }
       })
       .then(response => {
-        this.message = response.data;
-        this.props = response.data.userId;
+        this.post = response.data;
         console.log(response);
       })
       .catch(error => console.error(error));

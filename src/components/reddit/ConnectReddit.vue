@@ -16,13 +16,15 @@ export default {
       let params = new URL(document.location).searchParams;
       let state = params.get("state");
       let code = params.get("code");
+      const redirectUri = "http://localhost:8080/dashboard/forum";
+      const grantType = "authorization_code";
+      const postdata = `grant_type=${grantType}&code=${code}&redirect_uri=${redirectUri}`;
       console.log(state);
       console.log(code);
       redditAxios({
         url: "https://www.reddit.com/api/v1/access_token",
         method: "post",
         headers: {
-          "Content-type": "application/x-www-form-urlencoded",
           Authorization:
             "Basic " +
             btoa(
@@ -31,11 +33,7 @@ export default {
                 process.env.VUE_APP_REDDIT_CLIENTSecret
             )
         },
-        data: {
-          grant_type: "authorization_code",
-          code: code,
-          redirect_uri: "http://localhost:8080/dashboard/forum"
-        }
+        data: postdata
       });
     }
   }
