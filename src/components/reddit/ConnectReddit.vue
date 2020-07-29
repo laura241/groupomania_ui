@@ -1,41 +1,43 @@
 <template>
   <div>
-    <button v-on:click="RedditAuthorization">
-      <router-link to="/a">Se connecter à Reddit</router-link>|
-    </button>
+    <router-link to="/a">Se connecter à Reddit</router-link>|
     <button v-on:click="RedditAuthorization">Autoriser Reddit</button>
   </div>
 </template>
 
 <script>
-import { redditAxios } from "../../../http-common";
+import axios from "axios";
 export default {
   name: "Account",
   methods: {
-    RedditAuthorization: function() {
-      let params = new URL(document.location).searchParams;
-      let state = params.get("state");
-      let code = params.get("code");
-      const redirectUri = "http://localhost:8080/dashboard/forum";
+    RedditAuthorization: function () {
+      const params = new URL(document.location).searchParams;
+      const code = params.get("code");
+      const redirectUri = "http://localhost:8080/dashboard";
       const grantType = "authorization_code";
-      const postdata = `grant_type=${grantType}&code=${code}&redirect_uri=${redirectUri}`;
-      console.log(state);
       console.log(code);
-      redditAxios({
-        url: "https://www.reddit.com/api/v1/access_token",
-        method: "post",
-        headers: {
-          Authorization:
-            "Basic " +
-            btoa(
-              process.env.VUE_APP_REDDIT_CLIENTId +
-                ":" +
-                process.env.VUE_APP_REDDIT_CLIENTSecret
-            )
-        },
-        data: postdata
-      });
-    }
-  }
+      axios
+        .post(
+          "https://www.reddit.com/api/v1/access_token",
+          `grant_type=${grantType}&code=${code}&redirect_uri=${redirectUri}`,
+          {
+            headers: {
+              Authorization:
+                "Basic " +
+                btoa(
+                  process.env.VUE_APP_REDDIT_CLIENT_ID +
+                    ":" +
+                    process.env.VUE_APP_REDDIT_CLIENT_SECRET
+                ),
+            },
+          }
+        )
+        .then((response) => {
+          console.log(response);
+          const redditToken = response.data.access_token;
+          localStorage.setItem("access_token", redditToken);
+        });
+    },
+  },
 };
 </script>

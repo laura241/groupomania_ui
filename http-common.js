@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const token = window.localStorage.getItem("userToken");
+const token = localStorage.getItem("userToken");
+const RedditToken = localStorage.getItem("access_token");
 
 const mainAxios = axios.create({
   baseURL: "http://localhost:3000/api",
@@ -10,7 +11,10 @@ const mainAxios = axios.create({
 });
 
 const redditAxios = axios.create({
-  baseURL: "https://www.reddit.com",
+  baseURL: "https://oauth.reddit.com",
+  headers: {
+    Authorization: `Bearer ${RedditToken}`
+  }
 });
 
 export {

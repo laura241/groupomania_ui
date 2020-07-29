@@ -1,42 +1,42 @@
 <template>
-  <div id="AddNewPost">
-    <form @submit.prevent="onSubmit">
-      <div class="form-group">
-        <label for="post">Ecrire un nouveau post</label>
-        <input id="post" type="text" v-model="post" name="post" />
-        <button type="submit" value="Submit">Envoyer</button>
-      </div>
-    </form>
+  <div id="AddNewComment">
+    <label for="comment">Ecrire un commentaire</label>
+    <input type="text" name="comment" v-model="comment" />
+    <button v-on:click="submitComment">Envoyer</button>
   </div>
 </template>
 
+
+
+
 <script>
 import { mainAxios } from "../../../http-common";
+
 export default {
-  name: "AddNewPost",
+  name: "AddNewComment",
   data: function () {
     return {
-      post: "",
+      comment: "",
     };
   },
+  props: ["id"],
   methods: {
-    onSubmit() {
+    submitComment() {
+      console.log(this.id, this.$props.id);
       const userId = localStorage.getItem("userId");
-      const token = window.localStorage.getItem("userToken");
-      mainAxios
-        .post(
-          "/posts",
-          { post: this.post, userId: userId },
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        )
-        .catch((error) => {
-          console.log(error);
-        });
-      this.$emit("post-sent", { post: this.post, userId: userId });
+      const comment = {
+        comment: this.comment,
+        userId: userId,
+        postId: this.id,
+      };
+
+      mainAxios({
+        url: "/comments",
+        data: comment,
+        method: "POST",
+      }).catch((error) => {
+        console.log(error);
+      });
     },
   },
 };
@@ -105,3 +105,4 @@ label {
   border-radius: 50%;
 }
 </style>
+

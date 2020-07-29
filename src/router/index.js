@@ -64,16 +64,10 @@ export default new Router({
       component: () => import("../views/UserAdmin.vue"),
     },
     {
-      path: "/dashboard/forum",
-      name: "Forum",
-      beforeEnter: ifAuthenticated,
-      component: () => import("../views/Forum.vue"),
-    },
-    {
       path: '/a',
       name: "Reddit",
       component: () => {
-        window.location = "https://www.reddit.com/api/v1/authorize?client_id=51U71a7A1LknxA&response_type=code&state=RANDOM_STRING&redirect_uri=http://localhost:8080/dashboard/forum&duration=permanent&scope=privatemessages identity"
+        window.location = `https://www.reddit.com/api/v1/authorize?client_id=${process.env.VUE_APP_REDDIT_CLIENT_ID}&response_type=code&state=${+new Date()}&redirect_uri=http://localhost:8080/dashboard&duration=permanent&scope=submit read`
       }
     }
   ]
