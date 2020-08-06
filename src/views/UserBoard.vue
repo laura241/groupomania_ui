@@ -1,23 +1,35 @@
 <template id="Forum">
   <div>
-    <div class="card">
-      <h3>Reddit</h3>
-      <ConnectReddit />
-
-      <Content />
-    </div>
     <ShowAllPosts />
   </div>
 </template>
 
 <script>
 import ShowAllPosts from "@/components/forum/ShowAllPosts.vue";
-import ConnectReddit from "@/components/reddit/ConnectReddit.vue";
-import Content from "@/components/reddit/Content.vue";
+
+import { mainAxios } from "../../http-common";
 
 export default {
   name: "UserBoard",
-  components: { ShowAllPosts, ConnectReddit, Content },
+  components: { ShowAllPosts },
+  data() {
+    return {
+      role: [],
+    };
+  },
+  mounted() {
+    const userId = localStorage.getItem("userId");
+    mainAxios
+      .request({
+        url: `/auth/users/${userId}`,
+        method: "get",
+      })
+      .then((response) => {
+        console.log(response);
+        this.role = response.data.role;
+      })
+      .catch((error) => console.error(error));
+  },
 };
 </script>
 

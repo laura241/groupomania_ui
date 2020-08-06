@@ -33,10 +33,12 @@ export default {
             },
           }
         )
+        .then((response) => {
+          this.$emit("post-sent", response.data);
+        })
         .catch((error) => {
           console.log(error);
         });
-      this.$emit("post-sent", { post: this.post, userId: userId });
     },
   },
 };

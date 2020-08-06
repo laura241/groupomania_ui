@@ -6,6 +6,7 @@
     </div>
     <div>
       <router-link to="/dashboard">Accueil</router-link>|
+      <router-link to="/dashboard/reddit">Reddit</router-link>|
       <router-link to="/dashboard/account">Mon compte</router-link>
     </div>
     <div id="logout">

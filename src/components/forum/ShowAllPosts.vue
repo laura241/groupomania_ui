@@ -3,13 +3,13 @@
     <div class="card card-container">
       <AddNewPost @post-sent="updatePosts" />
       <table>
-        <tr v-for="(p, i) in post" :key="p+i">
+        <tr v-for="(p, i) in posts" :key="p+i">
           <td>{{p.user.firstName}}</td>
           <td>{{p.user.lastName}}</td>
           <td>{{p.post}}</td>
           <td>{{p.createdAt}}</td>
-          <td>{{p.comment}}</td>
-          <AddNewComment v-bind:id="p.postId" />
+          <td v-for="comment in p.comments" :key="comment.commentId">{{comment.comment}}</td>
+          <AddNewComment @comment-sent="updateComments" v-bind:id="p.postId" />
         </tr>
       </table>
     </div>
@@ -25,7 +25,7 @@ export default {
   name: "ShowAllPosts",
   data() {
     return {
-      post: "",
+      posts: [],
     };
   },
   components: { AddNewComment, AddNewPost },
@@ -40,26 +40,23 @@ export default {
         },
       })
       .then((response) => {
-        this.post = response.data;
+        this.posts = response.data;
+        console.log(this.posts);
       })
       .catch((error) => console.error(error));
   },
   methods: {
-    updatePosts() {
-      const token = localStorage.getItem("userToken");
-      mainAxios
-        .request({
-          url: "/posts",
-          method: "get",
-          headers: {
-            Authorization: token,
-          },
-        })
-        .then((response) => {
-          this.post = response.data;
-          console.log(response);
-        })
-        .catch((error) => console.error(error));
+    updateComments(e) {
+      this.posts = this.posts.map((p) => {
+        if (p.postId === e.postId) {
+          return e;
+        }
+        return p;
+      });
+    },
+    updatePosts(e) {
+      console.log(e); //{post: toto, userId: 144}
+      this.posts.push(e);
     },
   },
 };
@@ -91,3 +88,4 @@ export default {
   border-radius: 50%;
 }
 </style>
+© 2020 GitHub, Inc.

@@ -2,7 +2,7 @@ import {
     AUTH_REQUEST,
     AUTH_ERROR,
     AUTH_SUCCESS,
-    AUTH_LOGOUT
+    AUTH_LOGOUT,
 } from "../actions/auth";
 
 
@@ -11,7 +11,6 @@ import axios from "axios";
 const state = {
     token: localStorage.getItem('userToken') || '',
     user: localStorage.getItem('user') || '',
-    firstName: localStorage.getItem('firstName') || '',
     status: '',
 };
 
@@ -53,6 +52,7 @@ const actions = {
                     reject(err);
                 });
         });
+
     },
     [AUTH_LOGOUT]: ({
         commit,
@@ -65,7 +65,7 @@ const actions = {
             delete axios.defaults.headers.common['Authorization']
             resolve();
         });
-    }
+    },
 };
 
 const mutations = {

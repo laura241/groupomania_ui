@@ -16,13 +16,12 @@ export default {
   name: "AddNewComment",
   data: function () {
     return {
-      comment: "",
+      comment: [],
     };
   },
   props: ["id"],
   methods: {
     submitComment() {
-      console.log(this.id, this.$props.id);
       const userId = localStorage.getItem("userId");
       const comment = {
         comment: this.comment,
@@ -34,9 +33,14 @@ export default {
         url: "/comments",
         data: comment,
         method: "POST",
-      }).catch((error) => {
-        console.log(error);
-      });
+      })
+        .then((response) => {
+          this.$emit("comment-sent", response.data);
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
   },
 };

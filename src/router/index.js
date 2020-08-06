@@ -5,6 +5,7 @@ import Login from '../views/Login.vue';
 import Register from '../views/Register.vue';
 import store from "../store";
 
+
 Vue.use(Router);
 
 
@@ -58,16 +59,16 @@ export default new Router({
       component: () => import("../views/UserAccount.vue")
     },
     {
-      path: "/dashboard/admin",
-      name: "admin",
+      path: "/dashboard/reddit",
+      name: "RedditApi",
       beforeEnter: ifAuthenticated,
-      component: () => import("../views/UserAdmin.vue"),
+      component: () => import("../views/RedditApi.vue")
     },
     {
       path: '/a',
       name: "Reddit",
       component: () => {
-        window.location = `https://www.reddit.com/api/v1/authorize?client_id=${process.env.VUE_APP_REDDIT_CLIENT_ID}&response_type=code&state=${+new Date()}&redirect_uri=http://localhost:8080/dashboard&duration=permanent&scope=submit read`
+        window.location = `https://www.reddit.com/api/v1/authorize?client_id=${process.env.VUE_APP_REDDIT_CLIENT_ID}&response_type=code&state=${+new Date()}&redirect_uri=http://localhost:8080/dashboard/reddit&duration=permanent&scope=submit read`
       }
     }
   ]
