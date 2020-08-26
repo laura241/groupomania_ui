@@ -6,15 +6,12 @@
   </div>
 </template>
 
-
-
-
 <script>
-import { mainAxios } from "../../../http-common";
+import axios from "axios";
 
 export default {
   name: "AddNewComment",
-  data: function () {
+  data: function() {
     return {
       comment: [],
     };
@@ -28,11 +25,15 @@ export default {
         userId: userId,
         postId: this.id,
       };
+      const token = localStorage.getItem("userToken");
 
-      mainAxios({
-        url: "/comments",
+      axios({
+        url: "http://localhost:3000/api/comments",
         data: comment,
         method: "POST",
+        headers: {
+          Authorization: token,
+        },
       })
         .then((response) => {
           this.$emit("comment-sent", response.data);
@@ -109,4 +110,3 @@ label {
   border-radius: 50%;
 }
 </style>
-

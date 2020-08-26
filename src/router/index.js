@@ -6,6 +6,7 @@ import Register from '../views/Register.vue';
 import store from "../store";
 
 
+
 Vue.use(Router);
 
 
@@ -24,6 +25,17 @@ const ifAuthenticated = (to, from, next) => {
   }
   next('/dashboard')
 }
+
+const isAdmin = (to, from, next) => {
+  if (store.getters.authRole === 'admin') {
+    next()
+    return
+  }
+  next('/dashboard')
+}
+
+
+
 
 export default new Router({
   mode: 'history',
@@ -57,12 +69,11 @@ export default new Router({
       name: "userAccount",
       beforeEnter: ifAuthenticated,
       component: () => import("../views/UserAccount.vue")
-    },
-    {
-      path: "/dashboard/reddit",
-      name: "RedditApi",
-      beforeEnter: ifAuthenticated,
-      component: () => import("../views/RedditApi.vue")
+    }, {
+      path: "/dashboard/admin",
+      name: 'userAdmin',
+      beforeEnter: isAdmin,
+      component: () => import("../views/UserAdmin")
     },
     {
       path: '/a',

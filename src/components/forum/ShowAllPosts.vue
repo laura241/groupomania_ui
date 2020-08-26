@@ -1,17 +1,35 @@
 <template>
   <div id="ShowAllMessages">
-    <div class="card card-container">
-      <AddNewPost @post-sent="updatePosts" />
-      <table>
-        <tr v-for="(p, i) in posts" :key="p+i">
-          <td>{{p.user.firstName}}</td>
-          <td>{{p.user.lastName}}</td>
-          <td>{{p.post}}</td>
-          <td>{{p.createdAt}}</td>
-          <td v-for="comment in p.comments" :key="comment.commentId">{{comment.comment}}</td>
-          <AddNewComment @comment-sent="updateComments" v-bind:id="p.postId" />
-        </tr>
-      </table>
+    <div class="jumbotron">
+      <h1 class="display-4">Dernières publications</h1>
+      <div v-for="(l, i) in lastPosts" :key="l + i">
+        <div>{{ l.user.firstName }}{{ l.user.lastName }}</div>
+        <p>{{ l.post }}</p>
+        <p>"{{ l.createdAt }}| "moment""</p>
+      </div>
+    </div>
+
+    <AddNewPost @post-sent="updatePosts" />
+    <br />
+    <div>
+      <div>
+        <div v-for="(p, i) in posts" :key="p + i">
+          <b-card v-bind:title="p.title" v-bind:sub-title="p.createdAt | moment">
+            <b-card-text>{{ p.user.firstName }}{{ p.user.lastName }}</b-card-text>
+            <b-card-text>{{ p.post }}</b-card-text>
+            <div v-if="p.link">
+              <b-embed type="iframe" aspect="16by9" allowfullscreen v-bind:src="p.link"></b-embed>
+            </div>
+            <br />
+            <p
+              class="thumbnail"
+              v-for="comment in p.comments"
+              :key="comment.commentId"
+            >{{ comment.comment }}</p>
+            <AddNewComment @comment-sent="updateComments" v-bind:id="p.postId" />
+          </b-card>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -20,15 +38,23 @@
 import { mainAxios } from "../../../http-common";
 import AddNewComment from "./AddNewComment";
 import AddNewPost from "./AddNewPost";
-//import AllUsers from "../forum/AllUsers";
+import moment from "moment";
+
 export default {
   name: "ShowAllPosts",
   data() {
     return {
       posts: [],
+      lastPosts: "",
+      searchResults: "",
     };
   },
   components: { AddNewComment, AddNewPost },
+  filters: {
+    moment: function (date) {
+      return moment(date).format("DD MM YYYY, h:mm a");
+    },
+  },
   mounted() {
     const token = localStorage.getItem("userToken");
     mainAxios
@@ -44,7 +70,21 @@ export default {
         console.log(this.posts);
       })
       .catch((error) => console.error(error));
+
+    mainAxios
+      .request({
+        url: "/posts/lastposts",
+        method: "get",
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then((response) => {
+        this.lastPosts = response.data;
+      })
+      .catch((error) => console.error(error));
   },
+
   methods: {
     updateComments(e) {
       this.posts = this.posts.map((p) => {
@@ -55,8 +95,29 @@ export default {
       });
     },
     updatePosts(e) {
+      console.log(e);
       console.log(e); //{post: toto, userId: 144}
       this.posts.push(e);
+    },
+    showSearchResults(e) {
+      console.log(e);
+      const token = localStorage.getItem("userToken");
+      mainAxios
+        .request({
+          url: "/posts/admin",
+          method: "GET",
+          headers: {
+            Authorization: token,
+          },
+          params: {
+            search: e,
+          },
+        })
+        .then((response) => {
+          this.searchResults = response.data;
+          console.log(this.searchResults);
+        })
+        .catch((error) => console.error(error));
     },
   },
 };

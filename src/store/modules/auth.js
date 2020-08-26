@@ -11,14 +11,13 @@ import axios from "axios";
 const state = {
     token: localStorage.getItem('userToken') || '',
     user: localStorage.getItem('user') || '',
-    status: '',
+    role: localStorage.getItem('role') || '',
 };
 
 const getters = {
     isAuthenticated: state => !!state.token,
-    authStatus: state => state.status,
+    authRole: state => state.role,
     userAuthenticated: state => state.userId,
-    firstName: state => state.firstName,
 };
 
 const actions = {
@@ -35,11 +34,11 @@ const actions = {
                 .then(resp => {
                     const token = resp.data.token;
                     const userId = resp.data.userId;
-                    const firstName = resp.data.firstName;
+                    const role = resp.data.role;
                     console.log(token)
                     localStorage.setItem('userToken', token);
                     localStorage.setItem('userId', userId);
-                    localStorage.setItem('firstName', firstName);
+                    localStorage.setItem('role', role);
                     axios.defaults.headers.common['Authorization'] = 'Bearer' + token
                     commit(AUTH_SUCCESS, token), user;
                     resolve(resp)
@@ -48,7 +47,7 @@ const actions = {
                     commit(AUTH_ERROR, err);
                     localStorage.removeItem('userToken')
                     localStorage.removeItem('userId')
-                    localStorage.removeItem('firstName')
+                    localStorage.removeItem('role')
                     reject(err);
                 });
         });
@@ -61,7 +60,8 @@ const actions = {
             commit(AUTH_LOGOUT);
             localStorage.removeItem('userToken');
             localStorage.removeItem('userId');
-            localStorage.removeItem('firstName')
+            localStorage.removeItem('role')
+            localStorage.removeItem('accessToken')
             delete axios.defaults.headers.common['Authorization']
             resolve();
         });
@@ -72,11 +72,11 @@ const mutations = {
     [AUTH_REQUEST]: (state) => {
         state.status = "loading";
     },
-    [AUTH_SUCCESS]: (state, token, userId, firstName) => {
+    [AUTH_SUCCESS]: (state, token, userId, role) => {
         state.status = "success";
         state.token = token;
         state.userId = userId;
-        state.firstName = firstName;
+        state.role = role;
     },
     [AUTH_ERROR]: (state) => {
         state.status = "error";
@@ -84,7 +84,7 @@ const mutations = {
     [AUTH_LOGOUT]: (state) => {
         state.token = "";
         state.userId = "";
-        state.firstName = "";
+        state.role = "";
     }
 };
 

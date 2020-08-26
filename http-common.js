@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const token = localStorage.getItem("userToken");
-const RedditToken = localStorage.getItem("access_token");
+const RedditToken = localStorage.getItem("accessToken");
 
 const mainAxios = axios.create({
   baseURL: "http://localhost:3000/api",

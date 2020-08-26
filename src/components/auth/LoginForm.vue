@@ -3,21 +3,33 @@
     <div class="card card-container">
       <h1>J'ai déjà un compte</h1>
 
-      <form @submit.prevent="onSubmit">
-        <div class="form-group">
+      <b-form @submit.prevent="onSubmit" v-if="show">
+        <b-form-group class="form-group">
           <label for="email">Email</label>
-          <input id="email" type="text" v-model="email" name="email" />
-        </div>
+          <b-form-input
+            input
+            id="email"
+            type="text"
+            v-model="email"
+            name="email"
+          ></b-form-input>
+        </b-form-group>
 
-        <div class="form-group">
+        <b-form-group class="form-group">
           <label for="gpPassword">Mot de passe</label>
-          <input id="gpPassword" type="password" required v-model="gpPassword" name="gpPassword" />
-        </div>
+          <b-form-input
+            id="gpPassword"
+            type="password"
+            required
+            v-model="gpPassword"
+            name="gpPassword"
+          ></b-form-input>
+        </b-form-group>
 
         <div class="form-group">
           <input type="submit" required value="Submit" />
         </div>
-      </form>
+      </b-form>
     </div>
   </div>
 </template>
@@ -29,7 +41,8 @@ export default {
   data: function() {
     return {
       email: "",
-      gpPassword: ""
+      gpPassword: "",
+      show: true,
     };
   },
   methods: {
@@ -38,8 +51,8 @@ export default {
       this.$store.dispatch(AUTH_REQUEST, { email, gpPassword }).then(() => {
         this.$router.push("/dashboard");
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

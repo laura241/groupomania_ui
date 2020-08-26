@@ -1,6 +1,13 @@
-<template id="Forum">
+<template id="UserBoard">
   <div>
-    <ShowAllPosts />
+    <h1>Forum Groupomania</h1>
+    <b-container fluid="md">
+      <b-row>
+        <b-col>
+          <ShowAllPosts />
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -40,4 +47,3 @@ export default {
   text-align: left;
 }
 </style>
-

@@ -1,19 +1,15 @@
 <template>
   <div id="ShowAllMessages">
-    <p v-if="admin">
-      <button v-on:click="ShowLastPosts">Afficher les dernières publications</button>
-      {{lastPosts}}
-    </p>
-    <div class="card card-container">
-      <h2>Mon compte Groupomania</h2>
-      <ul>
-        <li>Mon email:{{user.email}}</li>
-        <li>Mon nom:{{user.lastName}}</li>
-        <li>Mon prénom:{{user.firstName}}</li>
-        <li>Rôle :{{user.role}}</li>
-      </ul>
-      <button v-on:click="DeleteAccount">Supprimer mon compte</button>
-    </div>
+    <b-card title="Mon compte Groupomania">
+      <b-card-text>
+        <div>Mon email:{{ user.email }}</div>
+        <div>Mon nom:{{ user.lastName }}</div>
+        <div>Mon prénom:{{ user.firstName }}</div>
+        <div>Rôle :{{ user.role }}</div>
+
+        <button v-on:click="DeleteAccount">Supprimer mon compte</button>
+      </b-card-text>
+    </b-card>
   </div>
 </template>
 
@@ -50,7 +46,7 @@ export default {
       .catch((error) => console.error(error));
   },
   methods: {
-    DeleteAccount: function () {
+    DeleteAccount: function() {
       const userId = localStorage.getItem("userId");
       mainAxios
         .request({
@@ -61,27 +57,12 @@ export default {
           console.log(response);
         })
         .catch((error) => console.error(error));
-      this.$nextTick(function () {
+      this.$nextTick(function() {
         this.$store
           .dispatch(AUTH_LOGOUT)
           .then(() => this.$router.push("/login"));
         this.$router.push("/login");
       });
-    },
-    ShowLastPosts: function () {
-      const token = localStorage.getItem("userToken");
-      mainAxios
-        .request({
-          url: "/posts/admin",
-          method: "get",
-          headers: {
-            Authorization: token,
-          },
-        })
-        .then((response) => {
-          this.lastPosts = response.data;
-        })
-        .catch((error) => console.error(error));
     },
   },
 };
@@ -92,6 +73,3 @@ ul {
   padding-inline-start: 5px;
 }
 </style>
-
-
-
