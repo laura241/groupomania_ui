@@ -6,29 +6,68 @@
         <div>{{ l.user.firstName }}{{ l.user.lastName }}</div>
         <p>{{ l.post }}</p>
         <p>"{{ l.createdAt }}| "moment""</p>
+        <p v-for="comment in l.comments" :key="comment.commentId">
+          {{ comment.comment }}{{ comment.createdAt }}
+        </p>
       </div>
     </div>
 
     <AddNewPost @post-sent="updatePosts" />
     <br />
     <div>
-      <div>
-        <div v-for="(p, i) in posts" :key="p + i">
-          <b-card v-bind:title="p.title" v-bind:sub-title="p.createdAt | moment">
-            <b-card-text>{{ p.user.firstName }}{{ p.user.lastName }}</b-card-text>
-            <b-card-text>{{ p.post }}</b-card-text>
-            <div v-if="p.link">
-              <b-embed type="iframe" aspect="16by9" allowfullscreen v-bind:src="p.link"></b-embed>
+      <div v-for="(p, i) in posts" :key="p + i">
+        <b-card
+          v-bind:title="p.title"
+          v-bind:sub-title="p.createdAt | moment"
+          class="card-text"
+        >
+          <b-card-text class="card-text"
+            >{{ p.user.firstName }}{{ p.user.lastName }}</b-card-text
+          >
+          <b-card-text>{{ p.post }}</b-card-text>
+          <div v-if="p.link">
+            <div v-if="checkLink(p.link) == 'video'">
+              <b-embed
+                type="iframe"
+                aspect="16by9"
+                allowfullscreen
+                v-bind:src="p.link"
+              ></b-embed>
             </div>
-            <br />
-            <p
-              class="thumbnail"
-              v-for="comment in p.comments"
-              :key="comment.commentId"
-            >{{ comment.comment }}</p>
-            <AddNewComment @comment-sent="updateComments" v-bind:id="p.postId" />
-          </b-card>
-        </div>
+            <div v-else>
+              <a href="p.link">{{ p.link }}</a>
+            </div>
+          </div>
+
+          <br />
+
+          <b-button v-b-toggle.collapse-1-inner size="sm"
+            >Voir les commentaires</b-button
+          >
+          <b-collapse id="collapse-1-inner" class="mt-2">
+            <div v-for="comment in p.comments" :key="comment.commentId">
+              <div class="card-header p-0 px-3">
+                <div class="row py-3">
+                  <div class="mx-3 user">
+                    <div class="isAuthor" href="#">
+                      {{ comment.firstName }}{{ comment.lastName }}
+                    </div>
+                    <div class="ml-auto mr-4 card-body">
+                      <div class="card-text">
+                        {{ comment.comment }}
+                      </div>
+                    </div>
+                    <ValidationButtonComment
+                      v-bind:commentId="comment.commentId"
+                    />
+                    <DeleteButtonComment v-bind:commentId="comment.commentId" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </b-collapse>
+          <AddNewComment @comment-sent="updateComments" v-bind:id="p.postId" />
+        </b-card>
       </div>
     </div>
   </div>
@@ -39,6 +78,8 @@ import { mainAxios } from "../../../http-common";
 import AddNewComment from "./AddNewComment";
 import AddNewPost from "./AddNewPost";
 import moment from "moment";
+import ValidationButtonComment from "../admin/ValidationButton";
+import DeleteButtonComment from "../admin/DeleteButton";
 
 export default {
   name: "ShowAllPosts",
@@ -49,9 +90,14 @@ export default {
       searchResults: "",
     };
   },
-  components: { AddNewComment, AddNewPost },
+  components: {
+    AddNewComment,
+    AddNewPost,
+    ValidationButtonComment,
+    DeleteButtonComment,
+  },
   filters: {
-    moment: function (date) {
+    moment: function(date) {
       return moment(date).format("DD MM YYYY, h:mm a");
     },
   },
@@ -118,6 +164,13 @@ export default {
           console.log(this.searchResults);
         })
         .catch((error) => console.error(error));
+    },
+    checkLink(link) {
+      if (link.includes("youtube") || link.includes("dailymotion")) {
+        return "video";
+      } else {
+        return "text";
+      }
     },
   },
 };

@@ -1,16 +1,16 @@
 <template>
   <div id="app">
     <b-container>
-      <Menu />
+      <MenuNav />
       <router-view />
     </b-container>
   </div>
 </template>
 <script>
-import Menu from "./components/nav/Menu";
+import MenuNav from "./components/nav/MenuNav";
 export default {
   name: "App",
-  components: { Menu },
+  components: { MenuNav },
 };
 </script>
 

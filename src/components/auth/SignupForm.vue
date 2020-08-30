@@ -10,7 +10,12 @@
 
         <div class="form-group">
           <label for="firstName">Prénom</label>
-          <input id="firstName" type="text" v-model="firstName" name="firstName" />
+          <input
+            id="firstName"
+            type="text"
+            v-model="firstName"
+            name="firstName"
+          />
         </div>
 
         <div class="form-group">
@@ -20,12 +25,25 @@
 
         <div class="form-group">
           <label for="gpPassword">Mot de passe</label>
-          <input id="gpPassword" type="password" v-model="gpPassword" name="gpPassword" />
+          <input
+            id="gpPassword"
+            type="password"
+            v-model="gpPassword"
+            name="gpPassword"
+          />
+          <b-form-text id="password-help-block">
+            Votre mot de passe doit contenir 6 caractères au minimum
+          </b-form-text>
         </div>
 
         <div class="form-group">
           <label for="passwordConfirm">Confirmez votre mot de passe</label>
-          <input id="passwordConfirm" type="password" v-model="passwordConfirm" />
+
+          <input
+            id="passwordConfirm"
+            type="password"
+            v-model="passwordConfirm"
+          />
         </div>
 
         <div class="form-group">
@@ -47,7 +65,7 @@ export default {
       firstName: "",
       email: "",
       gpPassword: "",
-      passwordConfirm: ""
+      passwordConfirm: "",
     };
   },
   methods: {
@@ -56,7 +74,7 @@ export default {
         lastName: this.lastName,
         firstName: this.firstName,
         email: this.email,
-        gpPassword: this.gpPassword
+        gpPassword: this.gpPassword,
       };
       e.preventDefault();
       if (
@@ -68,17 +86,17 @@ export default {
           .then(() => {
             const { email, gpPassword } = this;
             this.$store.dispatch(AUTH_REQUEST, { email, gpPassword });
+            this.$router.push("/dashboard");
           })
-          .then(() => this.$router.push("/dashboard"))
-          .catch(error => {
+          .catch((error) => {
             localStorage.removeItem("token");
             {
               error;
             }
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

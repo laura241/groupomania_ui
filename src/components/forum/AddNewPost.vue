@@ -47,13 +47,23 @@ export default {
     onSubmit() {
       const userId = localStorage.getItem("userId");
       const token = window.localStorage.getItem("userToken");
+      var link = this.link;
+
+      if (link) {
+        if (link.includes("embed")) {
+          console.log(link);
+        } else {
+          const url = link.split("v=");
+          link = "https://www.youtube.com/embed/" + url[1];
+        }
+      }
       axios
         .post(
           "http://localhost:3000/api/posts",
           {
             title: this.title,
             post: this.post,
-            link: this.link,
+            link: link,
             userId: userId,
           },
           {

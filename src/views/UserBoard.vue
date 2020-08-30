@@ -1,6 +1,5 @@
 <template id="UserBoard">
   <div>
-    <h1>Forum Groupomania</h1>
     <b-container fluid="md">
       <b-row>
         <b-col>

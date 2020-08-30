@@ -2,10 +2,14 @@
   <div id="ShowAllMessages">
     <b-card title="Mon compte Groupomania">
       <b-card-text>
-        <div>Mon email:{{ user.email }}</div>
-        <div>Mon nom:{{ user.lastName }}</div>
-        <div>Mon prénom:{{ user.firstName }}</div>
-        <div>Rôle :{{ user.role }}</div>
+        <h6>Mon email</h6>
+        <div>{{ user.email }}</div>
+        <h6>Mon nom</h6>
+        <div>{{ user.lastName }}</div>
+        <h6>Mon prénom</h6>
+        <div>{{ user.firstName }}</div>
+        <h6>Rôle</h6>
+        <div>{{ user.role }}</div>
 
         <button v-on:click="DeleteAccount">Supprimer mon compte</button>
       </b-card-text>
@@ -41,12 +45,11 @@ export default {
         } else {
           this.admin = false;
         }
-        console.log(role);
       })
       .catch((error) => console.error(error));
   },
   methods: {
-    DeleteAccount: function() {
+    DeleteAccount: function () {
       const userId = localStorage.getItem("userId");
       mainAxios
         .request({
@@ -57,7 +60,7 @@ export default {
           console.log(response);
         })
         .catch((error) => console.error(error));
-      this.$nextTick(function() {
+      this.$nextTick(function () {
         this.$store
           .dispatch(AUTH_LOGOUT)
           .then(() => this.$router.push("/login"));

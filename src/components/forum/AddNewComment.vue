@@ -1,8 +1,21 @@
 <template>
-  <div id="AddNewComment">
-    <label for="comment">Ecrire un commentaire</label>
-    <input type="text" name="comment" v-model="comment" />
-    <button v-on:click="submitComment">Envoyer</button>
+  <div id="AddNewComment" class="input-group">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Laissez un commentaire"
+      aria-label
+      aria-describedby="basic-addon1"
+      name="comment"
+      v-model="comment"
+    />
+    <div class="input-group-append">
+      <button class="btn btn-primary" type="button" v-on:click="submitComment">
+        <b-iconstack font-scale="1"
+          ><b-icon stacked icon="check"></b-icon
+        ></b-iconstack>
+      </button>
+    </div>
   </div>
 </template>
 

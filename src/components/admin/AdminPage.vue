@@ -5,26 +5,17 @@
         <div class="card card-container">
           <div>
             <div v-for="(p, i) in posts" :key="p + i">
-              <b-card
-                v-bind:title="p.title"
-                v-bind:sub-title="p.createdAt | moment"
-              >
-                <b-card-text
-                  >{{ p.user.firstName }}{{ p.user.lastName }}</b-card-text
-                >
+              <b-card v-bind:title="p.title" v-bind:sub-title="p.createdAt | moment">
+                <b-card-text>{{ p.user.firstName }}{{ p.user.lastName }}</b-card-text>
                 <b-card-text>{{ p.post }}</b-card-text>
                 <div v-if="p.link">
-                  <b-embed
-                    type="iframe"
-                    aspect="16by9"
-                    allowfullscreen
-                    v-bind:src="p.link"
-                  ></b-embed>
+                  <b-embed type="iframe" aspect="16by9" allowfullscreen v-bind:src="p.link"></b-embed>
                 </div>
                 <br />
-                <p v-for="comment in p.comments" :key="comment.commentId">
-                  {{ comment.comment }}
-                </p>
+                <p
+                  v-for="comment in p.comments"
+                  :key="comment.commentId"
+                >{{ comment.comment }}{{comment.createdAt}}</p>
                 <ValidationButton v-bind:id="p.postId" />
                 <DeleteButton v-bind:id="p.postId" />
               </b-card>
@@ -46,7 +37,7 @@ export default {
   name: "AdminPAge",
   components: { ValidationButton, DeleteButton },
   filters: {
-    moment: function(date) {
+    moment: function (date) {
       return moment(date).format("DD MM YYYY, h:mm a");
     },
   },
