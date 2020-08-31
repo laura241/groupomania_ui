@@ -15,10 +15,10 @@ export default {
       deleteMessage: "",
     };
   },
-  props: ["id"],
+  props: ["commentId"],
   methods: {
     onSubmit() {
-      const id = this.id;
+      const id = this.commentId;
       const token = window.localStorage.getItem("userToken");
 
       axios

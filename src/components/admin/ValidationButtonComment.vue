@@ -24,7 +24,7 @@ export default {
       validation: "",
     };
   },
-  props: "commentId",
+  props: ["commentId"],
   methods: {
     onSubmit() {
       const id = this.commentId;

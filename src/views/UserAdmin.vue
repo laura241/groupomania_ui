@@ -8,12 +8,10 @@
 
 <script>
 import AdminPage from "../../src/components/admin/AdminPage";
-import AllUsers from "../../src/components/admin/AllUsers";
 export default {
   name: "UserAdmin",
   components: {
     AdminPage,
-    AllUsers,
   },
 };
 </script>

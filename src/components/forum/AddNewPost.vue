@@ -1,22 +1,34 @@
 <template>
   <div id="AddNewPost">
     <b-container fluid="md">
-      <div>
-        <h3>Ecrire un nouveau post</h3>
+      <div class="card">
         <form @submit.prevent="onSubmit">
+          <h3>Ecrire un nouveau post</h3>
           <div>
-            <label for="post">Titre</label>
-            <input id="title" type="text" v-model="title" name="title" />
+            <label for="input-default"></label>
+            <b-form-input id="title" placeholder="titre" type="text" v-model="title" name="title" />
           </div>
-
+          <br />
           <div id="textarea-large" placeholder="votre message">
-            <label for="post">Message</label>
-            <input id="title" type="text" v-model="post" name="post" />
+            <label for="post"></label>
+            <b-form-input
+              id="title"
+              placeholder="Votre message"
+              type="text"
+              v-model="post"
+              name="post"
+            />
           </div>
-
+          <br />
           <div>
-            <label for="link">Partager un lien</label>
-            <input id="link" type="link" v-model="link" name="link" />
+            <label for="link"></label>
+            <b-form-input
+              id="link"
+              placeholder="Partager un lien"
+              type="link"
+              v-model="link"
+              name="link"
+            />
             <br />
             <b-button
               variant="info"

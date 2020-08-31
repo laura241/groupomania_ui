@@ -1,38 +1,53 @@
 <template>
   <div id="ShowAllMessages">
-    <div class="jumbotron">
-      <h1 class="display-4">Dernières publications</h1>
-      <div v-for="(l, i) in lastPosts" :key="l + i">
-        <div>{{ l.user.firstName }}{{ l.user.lastName }}</div>
-        <p>{{ l.post }}</p>
-        <p>"{{ l.createdAt }}| "moment""</p>
-        <p v-for="comment in l.comments" :key="comment.commentId">
-          {{ comment.comment }}{{ comment.createdAt }}
-        </p>
-      </div>
+    <div>
+      <b-button
+        v-on:click="showLastPosts"
+        block
+        variant="primary"
+        v-b-toggle.sidebar-1
+      >Voir les dernières publications</b-button>
+      <b-sidebar id="sidebar-1" title="Dernières publications" shadow>
+        <div class="px-3 py-2">
+          <div v-for="(l, i) in lastPosts" :key="l + i">
+            <b-card>
+              <b-avatar></b-avatar>
+              <b-card-text>{{ l.user.firstName }}{{ l.user.lastName }}</b-card-text>
+              <div class="card-title">
+                <b-card-text>
+                  <p>{{l.title}}</p>
+                </b-card-text>
+              </div>
+              <p>{{ l.post }}</p>
+              <p>{{ l.createdAt|moment }}</p>
+
+              <b-card-text>
+                <p
+                  v-for="comment in l.comments"
+                  :key="comment.commentId"
+                >{{ comment.comment }}{{ comment.createdAt }}</p>
+              </b-card-text>
+            </b-card>
+          </div>
+
+          <b-img src="../../../assets/logo.jpg" fluid thumbnail></b-img>
+        </div>
+      </b-sidebar>
     </div>
 
     <AddNewPost @post-sent="updatePosts" />
     <br />
     <div>
       <div v-for="(p, i) in posts" :key="p + i">
-        <b-card
-          v-bind:title="p.title"
-          v-bind:sub-title="p.createdAt | moment"
-          class="card-text"
-        >
-          <b-card-text class="card-text"
-            >{{ p.user.firstName }}{{ p.user.lastName }}</b-card-text
-          >
+        <b-card v-bind:title="p.title" v-bind:sub-title="p.createdAt | moment" class="card-text">
+          <b-card-text class="card-text">
+            <b-avatar></b-avatar>
+            {{ p.user.firstName }}{{ p.user.lastName }}
+          </b-card-text>
           <b-card-text>{{ p.post }}</b-card-text>
           <div v-if="p.link">
             <div v-if="checkLink(p.link) == 'video'">
-              <b-embed
-                type="iframe"
-                aspect="16by9"
-                allowfullscreen
-                v-bind:src="p.link"
-              ></b-embed>
+              <b-embed type="iframe" aspect="16by9" allowfullscreen v-bind:src="p.link"></b-embed>
             </div>
             <div v-else>
               <a href="p.link">{{ p.link }}</a>
@@ -41,26 +56,20 @@
 
           <br />
 
-          <b-button v-b-toggle.collapse-1-inner size="sm"
-            >Voir les commentaires</b-button
-          >
+          <b-button v-b-toggle.collapse-1-inner size="sm">Voir les commentaires</b-button>
           <b-collapse id="collapse-1-inner" class="mt-2">
             <div v-for="comment in p.comments" :key="comment.commentId">
               <div class="card-header p-0 px-3">
                 <div class="row py-3">
                   <div class="mx-3 user">
-                    <div class="isAuthor" href="#">
-                      {{ comment.firstName }}{{ comment.lastName }}
-                    </div>
+                    <b-avatar></b-avatar>
+                    <div
+                      class="isAuthor"
+                      href="#"
+                    >{{ comment.user.firstName }}{{ comment.user.lastName }}</div>
                     <div class="ml-auto mr-4 card-body">
-                      <div class="card-text">
-                        {{ comment.comment }}
-                      </div>
+                      <div class="card-text">{{ comment.comment }}</div>
                     </div>
-                    <ValidationButtonComment
-                      v-bind:commentId="comment.commentId"
-                    />
-                    <DeleteButtonComment v-bind:commentId="comment.commentId" />
                   </div>
                 </div>
               </div>
@@ -78,8 +87,6 @@ import { mainAxios } from "../../../http-common";
 import AddNewComment from "./AddNewComment";
 import AddNewPost from "./AddNewPost";
 import moment from "moment";
-import ValidationButtonComment from "../admin/ValidationButton";
-import DeleteButtonComment from "../admin/DeleteButton";
 
 export default {
   name: "ShowAllPosts",
@@ -88,17 +95,16 @@ export default {
       posts: [],
       lastPosts: "",
       searchResults: "",
+      visible: true,
     };
   },
   components: {
     AddNewComment,
     AddNewPost,
-    ValidationButtonComment,
-    DeleteButtonComment,
   },
   filters: {
-    moment: function(date) {
-      return moment(date).format("DD MM YYYY, h:mm a");
+    moment: function (date) {
+      return moment(date).format("DD MM YYYY");
     },
   },
   mounted() {
@@ -116,22 +122,24 @@ export default {
         console.log(this.posts);
       })
       .catch((error) => console.error(error));
-
-    mainAxios
-      .request({
-        url: "/posts/lastposts",
-        method: "get",
-        headers: {
-          Authorization: token,
-        },
-      })
-      .then((response) => {
-        this.lastPosts = response.data;
-      })
-      .catch((error) => console.error(error));
   },
 
   methods: {
+    showLastPosts() {
+      const token = localStorage.getItem("userToken");
+      mainAxios
+        .request({
+          url: "/posts/lastposts",
+          method: "get",
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          this.lastPosts = response.data;
+        })
+        .catch((error) => console.error(error));
+    },
     updateComments(e) {
       this.posts = this.posts.map((p) => {
         if (p.postId === e.postId) {

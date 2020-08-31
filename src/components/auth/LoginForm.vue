@@ -12,6 +12,7 @@
             type="text"
             v-model="email"
             name="email"
+            placeholder="email"
           ></b-form-input>
         </b-form-group>
 
@@ -23,6 +24,7 @@
             required
             v-model="gpPassword"
             name="gpPassword"
+            placeholder="Mot de passe"
           ></b-form-input>
         </b-form-group>
 
@@ -38,7 +40,7 @@
 import { AUTH_REQUEST } from "../../store/actions/auth";
 export default {
   name: "LoginForm",
-  data: function() {
+  data: function () {
     return {
       email: "",
       gpPassword: "",
