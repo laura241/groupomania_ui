@@ -2,9 +2,14 @@
   <div>
     <div id="DeleteButton">
       <form @submit.prevent="onSubmit">
-        <b-button type="submit" v-model="ButtonAdmin" value="Submit"
-          >Administrateur</b-button
-        >
+        <b-button
+          pill
+          variant="outline-info"
+          type="submit"
+          v-model="ButtonAdmin"
+          aria-label="Bouton admin"
+          value="Submit"
+        >Admin</b-button>
       </form>
     </div>
   </div>
@@ -14,7 +19,7 @@
 import axios from "axios";
 export default {
   name: "ButtonAdmin",
-  data: function() {
+  data: function () {
     return {
       ButtonAdmin: "",
     };

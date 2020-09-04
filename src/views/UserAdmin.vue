@@ -1,9 +1,10 @@
 <template>
-  <div id="UserAdmin">
-    <h1>Administration</h1>
-    <AllUsers />
-    <AdminPage />
-  </div>
+  <b-container>
+    <div id="UserAdmin">
+      <h1>Administration</h1>
+      <AdminPage />
+    </div>
+  </b-container>
 </template>
 
 <script>

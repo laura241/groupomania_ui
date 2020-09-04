@@ -27,7 +27,7 @@ const ifAuthenticated = (to, from, next) => {
 }
 
 const isAdmin = (to, from, next) => {
-  if (store.getters.authRole === 'admin') {
+  if (localStorage.getItem('role') === 'admin') {
     next()
     return
   }
@@ -76,11 +76,11 @@ export default new Router({
       component: () => import("../views/UserAdmin")
     },
     {
-      path: '/a',
-      name: "Reddit",
+      path: '/b-link',
+      name: "ShareArticle",
       component: () => {
-        window.location = `https://www.reddit.com/api/v1/authorize?client_id=${process.env.VUE_APP_REDDIT_CLIENT_ID}&response_type=code&state=${+new Date()}&redirect_uri=http://localhost:8080/dashboard/reddit&duration=permanent&scope=submit read`
+        window.location = `p.link`
       }
-    }
+    },
   ]
 })

@@ -1,18 +1,40 @@
 <template>
   <div id="ShowAllMessages">
     <b-card title="Mon compte Groupomania">
-      <b-card-text>
-        <h6>Mon email</h6>
-        <div>{{ user.email }}</div>
-        <h6>Mon nom</h6>
-        <div>{{ user.lastName }}</div>
-        <h6>Mon prénom</h6>
-        <div>{{ user.firstName }}</div>
-        <h6>Rôle</h6>
-        <div>{{ user.role }}</div>
-
-        <button v-on:click="DeleteAccount">Supprimer mon compte</button>
-      </b-card-text>
+      <b-row>
+        <b-col>
+          <ul>
+            <li>
+              <h6>Mon email</h6>
+              {{ user.email }}
+            </li>
+            <br />
+            <li>
+              <h6>Mon nom</h6>
+              {{ user.lastName }}
+            </li>
+            <br />
+            <li>
+              <h6>Mon prénom</h6>
+              {{ user.firstName }}
+            </li>
+            <br />
+            <li>
+              <h6>Rôle</h6>
+              {{ user.role }}
+            </li>
+          </ul>
+        </b-col>
+        <b-col>
+          <img alt="Vue logo" src="../assets/logoUserAccount.jpg" />
+        </b-col>
+      </b-row>
+      <b-button
+        href="#"
+        variant="primary"
+        class="m-1"
+        v-on:click="DeleteAccount"
+      >Supprimer mon compte</b-button>
     </b-card>
   </div>
 </template>
@@ -27,6 +49,7 @@ export default {
       user: [],
       lastPosts: [],
       admin: "",
+      showDismissibleAlert: false,
     };
   },
   mounted() {

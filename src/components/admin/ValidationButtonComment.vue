@@ -2,24 +2,25 @@
   <div id="ValidationButtonComment">
     <form @submit.prevent="onSubmit">
       <b-button
+        pill
         variant="success"
         type="submit"
         v-model="validation"
+        aria-label="Valider le commentaire"
         value="Submit"
         class="mb-2"
-        @click="makeToast('success')"
-      >Valider</b-button>
+        size="sm"
+        >Valider</b-button
+      >
     </form>
   </div>
 </template>
-
-
 
 <script>
 import axios from "axios";
 export default {
   name: "ValidationButtonComment",
-  data: function () {
+  data: function() {
     return {
       validation: "",
     };
@@ -46,14 +47,6 @@ export default {
           console.log(response);
         });
       location.reload();
-    },
-
-    makeToast(variant = null) {
-      this.$bvToast.toast("Le commentaire a été validé", {
-        title: `Variant ${variant || "default"}`,
-        variant: variant,
-        solid: true,
-      });
     },
   },
 };

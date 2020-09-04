@@ -1,8 +1,9 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.jpg" />
-    <p></p>
-  </div>
+  <b-container fluid>
+    <div class="home">
+      <img fluid alt="Vue logo" src="../assets/logo.png" />
+    </div>
+  </b-container>
 </template>
 
 <script>

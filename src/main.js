@@ -1,39 +1,28 @@
-import Vue from 'vue';
-import store from './store';
-import router from './router';
-import App from './App.vue';
+import Vue from "vue";
+import App from "./App.vue";
+import store from "./store";
+import router from "./router";
 import {
   BootstrapVue,
   IconsPlugin,
   EmbedPlugin,
-  AvatarPlugin
-} from 'bootstrap-vue';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
-import Embed from 'v-video-embed';
-import moment from 'moment'
+  AvatarPlugin,
+} from "bootstrap-vue";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
 
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
+Vue.use(AvatarPlugin);
+Vue.use(EmbedPlugin);
 
-
-
-
-
-
-Vue.config.productionTip = false
-Vue.use(BootstrapVue)
-Vue.use(IconsPlugin)
-Vue.use(AvatarPlugin)
-Vue.use(EmbedPlugin)
-Vue.use(Embed)
-Vue.use(moment)
-
-
-
+Vue.use(require("vue-moment"));
+Vue.config.productionTip = false;
 
 
 new Vue({
-  el: '#app',
+  el: "#app",
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App),
 });

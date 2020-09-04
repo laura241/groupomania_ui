@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <LoginForm />
-  </div>
+  <b-container fluid>
+    <div>
+      <LoginForm />
+    </div>
+  </b-container>
 </template>
 
 <script>

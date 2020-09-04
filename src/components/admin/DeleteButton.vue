@@ -1,7 +1,17 @@
 <template>
   <div id="DeleteButton">
     <form @submit.prevent="onSubmit">
-      <b-button variant="danger" type="submit" v-model="deleteMessage" value="Submit">Supprimer</b-button>
+      <b-button
+        pill
+        variant="danger"
+        size="sm"
+        type="submit"
+        v-model="deleteMessage"
+        value="Submit"
+        aria-label="Supprimer le post"
+      >
+        <b-icon icon="trash-fill" aria-hidden="true"></b-icon>
+      </b-button>
     </form>
   </div>
 </template>

@@ -1,32 +1,34 @@
 <template>
-  <div id="AllComments">
-    <div>
+  <b-container>
+    <div id="AllComments">
       <div>
-        <div class="card card-container">
-          <table>
-            <tr>
-              <th>Nom</th>
-              <th>Prénom</th>
-              <th>Commentaire</th>
-              <th>Id post</th>
-              <th>Date de création</th>
-            </tr>
-            <tr v-for="(c, i) in comments" :key="c + i">
-              <td>{{c.user.lastName}}</td>
-              <td>{{c.user.firstName}}</td>
-              <td>{{c.comment}}</td>
-              <td>{{c.postId}}</td>
-              <td>{{c.createdAt}}</td>
-              <td>
-                <ValidationButtonComment v-bind:commentId="c.commentId" />
-                <DeleteButtonComment v-bind:commentId="c.commentId" />
-              </td>
-            </tr>
-          </table>
+        <div>
+          <div class="card card-container">
+            <table responsive stickyColumn="true">
+              <tr>
+                <th>Commentaires</th>
+              </tr>
+              <tr v-for="(c, i) in comments" :key="c + i">
+                <td>
+                  {{ c.user.lastName }}{{ c.user.firstName }}
+                  <br />
+                  {{ c.comment }}
+                  <br />
+                  {{ c.postId }}
+                  <br />
+                  {{ c.createdAt | moment("DD MM YYYY") }}
+                </td>
+                <td>
+                  <ValidationButtonComment v-bind:commentId="c.commentId" />
+                  <DeleteButtonComment v-bind:commentId="c.commentId" />
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  </b-container>
 </template>
 
 <script>

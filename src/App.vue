@@ -1,13 +1,15 @@
 <template>
-  <div id="app">
-    <b-container>
+  <b-container fluid>
+    <div id="app">
       <MenuNav />
       <router-view />
-    </b-container>
-  </div>
+    </div>
+  </b-container>
 </template>
+
 <script>
 import MenuNav from "./components/nav/MenuNav";
+
 export default {
   name: "App",
   components: { MenuNav },

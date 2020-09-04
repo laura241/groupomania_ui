@@ -5,7 +5,14 @@
       <form @submit.prevent="onSubmit">
         <div class="form-group">
           <label for="lastName">Nom</label>
-          <input id="lastName" type="text" v-model="lastName" name="lastName" />
+          <input
+            id="lastName"
+            type="text"
+            placehov-model="lastName"
+            name="lastName"
+            placeholder="Nom"
+            aria-label="Nom"
+          />
         </div>
 
         <div class="form-group">
@@ -15,25 +22,37 @@
             type="text"
             v-model="firstName"
             name="firstName"
+            placeholder="Prénom"
+            aria-label="Prénom"
           />
         </div>
 
         <div class="form-group">
           <label for="email">Email</label>
-          <input id="email" type="email" v-model="email" name="email" />
+          <input
+            id="email"
+            type="email"
+            v-model="email"
+            name="email"
+            placeholder="Email"
+            aria-label="Email"
+          />
         </div>
 
         <div class="form-group">
           <label for="gpPassword">Mot de passe</label>
           <input
             id="gpPassword"
+            placeholder="Mot de passe"
+            aria-label="Mot de passe"
             type="password"
             v-model="gpPassword"
             name="gpPassword"
           />
-          <b-form-text id="password-help-block">
-            Votre mot de passe doit contenir 6 caractères au minimum
-          </b-form-text>
+          <b-form-text
+            id="password-help-block"
+            aria-describedy="Votre mot de passe doit contenir 6 caractères au minimum"
+          >Votre mot de passe doit contenir 6 caractères au minimum</b-form-text>
         </div>
 
         <div class="form-group">
@@ -42,12 +61,13 @@
           <input
             id="passwordConfirm"
             type="password"
+            aria-describedy="Votre mot de passe doit contenir 6 caractères au minimum"
             v-model="passwordConfirm"
           />
         </div>
 
         <div class="form-group">
-          <input type="submit" value="Submit" />
+          <input type="submit" value="Envoyer" />
         </div>
       </form>
     </div>
@@ -59,7 +79,7 @@ import { mainAxios } from "../../../http-common";
 import { AUTH_REQUEST } from "../../store/actions/auth";
 export default {
   name: "SignupForm",
-  data: function() {
+  data: function () {
     return {
       lastName: "",
       firstName: "",

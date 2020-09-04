@@ -1,21 +1,31 @@
 <template>
-  <div id="AdminPage">
-    <div>
-      <div>
-        <b-tabs content-class="mt-3" fill>
-          <b-tab title="Gestion des utilisateurs" active
-            ><p><AllUsers /></p
-          ></b-tab>
-          <b-tab title="Gestion des posts">
-            <p><AllPosts /></p
-          ></b-tab>
-          <b-tab title="Gestion des comments">
-            <p><AllComments /></p>
-          </b-tab>
-        </b-tabs>
+  <b-container fluid>
+    <b-row>
+      <div id="AdminPage">
+        <b-row>
+          <div>
+            <b-tabs content-class="mt-3" fill>
+              <b-tab title="Gestion des utilisateurs" active>
+                <p>
+                  <AllUsers />
+                </p>
+              </b-tab>
+              <b-tab title="Gestion des posts">
+                <p>
+                  <AllPosts />
+                </p>
+              </b-tab>
+              <b-tab title="Gestion des commentaires">
+                <p>
+                  <AllComments />
+                </p>
+              </b-tab>
+            </b-tabs>
+          </div>
+        </b-row>
       </div>
-    </div>
-  </div>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -29,7 +39,7 @@ export default {
   name: "AdminPage",
   components: { AllPosts, AllUsers, AllComments },
   filters: {
-    moment: function(date) {
+    moment: function (date) {
       return moment(date).format("DD MM YYYY, h:mm a");
     },
   },

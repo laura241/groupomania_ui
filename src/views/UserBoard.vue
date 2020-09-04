@@ -1,13 +1,15 @@
 <template id="UserBoard">
-  <div>
-    <b-container fluid="md">
+  <b-container fluid>
+    <div>
       <b-row>
-        <b-col>
+        <b-col></b-col>
+        <b-col cols="12">
           <ShowAllPosts />
         </b-col>
+        <b-col></b-col>
       </b-row>
-    </b-container>
-  </div>
+    </div>
+  </b-container>
 </template>
 
 <script>

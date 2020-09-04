@@ -1,24 +1,24 @@
 <template>
-  <div class="card card-container" id="AllPosts">
+  <b-container>
     <div>
       <div>
         <div class="card card-container">
-          <table>
+          <table stickyColumn="true">
             <tr>
-              <th>Nom</th>
-              <th>Prénom</th>
-              <th>Titre post</th>
-              <th>Post</th>
-              <th>Lien</th>
-              <th>Date de création</th>
+              <th>Posts</th>
             </tr>
             <tr v-for="(p, i) in posts" :key="p + i">
-              <td>{{ p.user.firstName }}</td>
-              <td>{{ p.user.lastName }}</td>
-              <td>{{p.title}}</td>
-              <td>{{p.post}}</td>
-              <td>{{p.link}}</td>
-              <td>{{p.createdAt}}</td>
+              <td>
+                {{ p.user.firstName }}{{ p.user.lastName }}
+                <br />
+                {{p.title}}
+                <br />
+                {{p.post}}
+                <br />
+                {{p.link}}
+                <br />
+                {{p.createdAt | moment}}
+              </td>
               <td>
                 <ValidationButton v-bind:id="p.postId" />
                 <DeleteButton v-bind:id="p.postId" />
@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -42,7 +42,7 @@ export default {
   components: { ValidationButton, DeleteButton },
   filters: {
     moment: function (date) {
-      return moment(date).format("DD MM YYYY, h:mm a");
+      return moment(date).format("DD MM YYYY");
     },
   },
   data() {

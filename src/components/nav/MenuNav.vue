@@ -3,7 +3,6 @@
     <b-navbar toggleable="lg" type="light" variant="light">
       <b-navbar-nav href="#">
         <b-nav-item>
-          <img alt="groupomania" src="../../assets/logoMenu.png" />
           <router-link to="/dashboard">Accueil</router-link>
         </b-nav-item>
       </b-navbar-nav>
@@ -31,22 +30,23 @@
           <b-dropdown-item href="#">
             <router-link to="/dashboard/account">Mes informations</router-link>
           </b-dropdown-item>
-        </b-nav-item-dropdown>
 
-        <div id="logout">
-          <b-button v-on:click="logout">Se déconnecter</b-button>
-        </div>
+          <b-dropdown-item id="logout">
+            <b-link v-on:click="logout">Se déconnecter</b-link>
+          </b-dropdown-item>
+        </b-nav-item-dropdown>
       </b-collapse>
     </b-navbar>
   </div>
 </template>
+
 
 <script>
 import { AUTH_LOGOUT } from "../../store/actions/auth";
 export default {
   name: "menu",
   methods: {
-    logout: function() {
+    logout: function () {
       this.$store
         .dispatch(AUTH_LOGOUT)
         .then(() => this.$router.push("/login").catch(() => {}));

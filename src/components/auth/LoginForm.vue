@@ -1,39 +1,43 @@
 <template>
-  <div id="LoginForm" class="col-md-12">
-    <div class="card card-container">
-      <h1>J'ai déjà un compte</h1>
+  <b-container>
+    <div id="LoginForm" class="col-md-12">
+      <div class="card card-container">
+        <h1>J'ai déjà un compte</h1>
 
-      <b-form @submit.prevent="onSubmit" v-if="show">
-        <b-form-group class="form-group">
-          <label for="email">Email</label>
-          <b-form-input
-            input
-            id="email"
-            type="text"
-            v-model="email"
-            name="email"
-            placeholder="email"
-          ></b-form-input>
-        </b-form-group>
+        <b-form @submit.prevent="onSubmit" v-if="show">
+          <b-form-group class="form-group">
+            <label for="email">Email</label>
+            <b-form-input
+              input
+              id="email"
+              type="text"
+              v-model="email"
+              name="email"
+              placeholder="email"
+              aria-label="email"
+            ></b-form-input>
+          </b-form-group>
 
-        <b-form-group class="form-group">
-          <label for="gpPassword">Mot de passe</label>
-          <b-form-input
-            id="gpPassword"
-            type="password"
-            required
-            v-model="gpPassword"
-            name="gpPassword"
-            placeholder="Mot de passe"
-          ></b-form-input>
-        </b-form-group>
+          <b-form-group class="form-group">
+            <label for="gpPassword">Mot de passe</label>
+            <b-form-input
+              id="gpPassword"
+              type="password"
+              required
+              v-model="gpPassword"
+              name="gpPassword"
+              placeholder="Mot de passe"
+              aria-label="Mot de passe"
+            ></b-form-input>
+          </b-form-group>
 
-        <div class="form-group">
-          <input type="submit" required value="Submit" />
-        </div>
-      </b-form>
+          <div class="form-group">
+            <input type="submit" required value="Submit" aria-label="Submit" />
+          </div>
+        </b-form>
+      </div>
     </div>
-  </div>
+  </b-container>
 </template>
 
 <script>

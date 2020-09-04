@@ -11,9 +11,9 @@
     />
     <div class="input-group-append">
       <button class="btn btn-primary" type="button" v-on:click="submitComment">
-        <b-iconstack font-scale="1"
-          ><b-icon stacked icon="check"></b-icon
-        ></b-iconstack>
+        <b-iconstack font-scale="1">
+          <b-icon stacked icon="check"></b-icon>
+        </b-iconstack>
       </button>
     </div>
   </div>

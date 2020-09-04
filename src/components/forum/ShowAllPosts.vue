@@ -1,85 +1,108 @@
 <template>
-  <div id="ShowAllMessages">
-    <div>
-      <b-button
-        v-on:click="showLastPosts"
-        block
-        variant="primary"
-        v-b-toggle.sidebar-1
-      >Voir les dernières publications</b-button>
-      <b-sidebar id="sidebar-1" title="Dernières publications" shadow>
-        <div class="px-3 py-2">
-          <div v-for="(l, i) in lastPosts" :key="l + i">
-            <b-card>
-              <b-avatar></b-avatar>
-              <b-card-text>{{ l.user.firstName }}{{ l.user.lastName }}</b-card-text>
-              <div class="card-title">
-                <b-card-text>
-                  <p>{{l.title}}</p>
-                </b-card-text>
+  <b-container>
+    <div id="ShowAllMessages">
+      <b-row>
+        <b-col cols="4">
+          <b-button
+            v-on:click="showLastPosts"
+            variant="primary"
+            v-b-toggle.sidebar-1
+            >Voir les dernières publications</b-button
+          >
+          <b-sidebar id="sidebar-1" title="Dernières publications" shadow>
+            <div class="px-3 py-2">
+              <div v-for="(l, i) in lastPosts" :key="l + i">
+                <b-card>
+                  <b-avatar></b-avatar>
+                  <b-card-text
+                    >{{ l.user.firstName }}{{ l.user.lastName }}</b-card-text
+                  >
+                  <div class="card-title">
+                    <b-card-text>
+                      <p>{{ l.title }}</p>
+                    </b-card-text>
+                  </div>
+                  <p>{{ l.post }}</p>
+                  <p>{{ l.createdAt | moment }}</p>
+
+                  <b-card-text>
+                    <p v-for="comment in l.comments" :key="comment.commentId">
+                      {{ comment.comment }}{{ comment.createdAt | moment }}
+                    </p>
+                  </b-card-text>
+                </b-card>
               </div>
-              <p>{{ l.post }}</p>
-              <p>{{ l.createdAt|moment }}</p>
 
-              <b-card-text>
-                <p
-                  v-for="comment in l.comments"
-                  :key="comment.commentId"
-                >{{ comment.comment }}{{ comment.createdAt }}</p>
-              </b-card-text>
-            </b-card>
-          </div>
-
-          <b-img src="../../../assets/logo.jpg" fluid thumbnail></b-img>
-        </div>
-      </b-sidebar>
-    </div>
-
-    <AddNewPost @post-sent="updatePosts" />
-    <br />
-    <div>
-      <div v-for="(p, i) in posts" :key="p + i">
-        <b-card v-bind:title="p.title" v-bind:sub-title="p.createdAt | moment" class="card-text">
-          <b-card-text class="card-text">
-            <b-avatar></b-avatar>
-            {{ p.user.firstName }}{{ p.user.lastName }}
-          </b-card-text>
-          <b-card-text>{{ p.post }}</b-card-text>
-          <div v-if="p.link">
-            <div v-if="checkLink(p.link) == 'video'">
-              <b-embed type="iframe" aspect="16by9" allowfullscreen v-bind:src="p.link"></b-embed>
+              <b-img src="../../../assets/logo.jpg" fluid thumbnail></b-img>
             </div>
-            <div v-else>
-              <a href="p.link">{{ p.link }}</a>
-            </div>
-          </div>
+          </b-sidebar>
+
+          <AddNewPost @post-sent="updatePosts" />
 
           <br />
-
-          <b-button v-b-toggle.collapse-1-inner size="sm">Voir les commentaires</b-button>
-          <b-collapse id="collapse-1-inner" class="mt-2">
-            <div v-for="comment in p.comments" :key="comment.commentId">
-              <div class="card-header p-0 px-3">
-                <div class="row py-3">
-                  <div class="mx-3 user">
-                    <b-avatar></b-avatar>
-                    <div
-                      class="isAuthor"
-                      href="#"
-                    >{{ comment.user.firstName }}{{ comment.user.lastName }}</div>
-                    <div class="ml-auto mr-4 card-body">
-                      <div class="card-text">{{ comment.comment }}</div>
-                    </div>
+        </b-col>
+        <b-col>
+          <div>
+            <div v-for="(p, i) in posts" :key="p + i">
+              <b-card
+                v-bind:title="p.title"
+                v-bind:sub-title="p.createdAt | moment"
+                class="card-text"
+              >
+                <b-card-text class="card-text">
+                  <b-avatar></b-avatar>
+                  {{ p.user.firstName }}{{ p.user.lastName }}
+                </b-card-text>
+                <b-card-text>{{ p.post }}</b-card-text>
+                <div v-if="p.link">
+                  <div v-if="checkLink(p.link) == 'video'">
+                    <b-embed
+                      type="iframe"
+                      aspect="16by9"
+                      allowfullscreen
+                      v-bind:src="p.link"
+                    ></b-embed>
+                  </div>
+                  <div v-else>
+                    <b-link :href="'https//' + p.link" target="_blank">{{
+                      p.link
+                    }}</b-link>
                   </div>
                 </div>
-              </div>
+                <b-button v-b-toggle="'collapse-inner' + p.postId" size="sm"
+                  >Voir les commentaires</b-button
+                >
+                <br />
+
+                <b-collapse :id="'collapse-inner' + p.postId" class="mt-2">
+                  <div v-for="comment in p.comments" :key="comment.commentId">
+                    <div class="card-header p-0 px-3">
+                      <div class="row py-3">
+                        <div class="mx-3 user">
+                          <b-avatar></b-avatar>
+                          <div class="isAuthor" href="#">
+                            {{ comment.user.firstName
+                            }}{{ comment.user.lastName }}
+                          </div>
+                          <div class="ml-auto mr-4 card-body">
+                            <div class="card-text">{{ comment.comment }}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </b-collapse>
+                <AddNewComment
+                  @comment-sent="updateComments"
+                  v-bind:id="p.postId"
+                />
+              </b-card>
             </div>
-          </b-collapse>
-          <AddNewComment @comment-sent="updateComments" v-bind:id="p.postId" />
-        </b-card>
-      </div>
+          </div>
+        </b-col>
+      </b-row>
     </div>
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -103,7 +126,7 @@ export default {
     AddNewPost,
   },
   filters: {
-    moment: function (date) {
+    moment: function(date) {
       return moment(date).format("DD MM YYYY");
     },
   },
@@ -147,10 +170,11 @@ export default {
         }
         return p;
       });
+      console.log("updateComments", this.post);
     },
     updatePosts(e) {
-      console.log(e);
-      console.log(e); //{post: toto, userId: 144}
+      console.log("updatePosts", e); //{post: toto, userId: 144}
+
       this.posts.push(e);
     },
     showSearchResults(e) {

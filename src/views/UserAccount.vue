@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <b-container>
     <User />
-  </div>
+  </b-container>
 </template>
 
 

@@ -1,54 +1,66 @@
 <template>
-  <div id="AddNewPost">
-    <b-container fluid="md">
-      <div class="card">
-        <form @submit.prevent="onSubmit">
-          <h3>Ecrire un nouveau post</h3>
-          <div>
-            <label for="input-default"></label>
-            <b-form-input id="title" placeholder="titre" type="text" v-model="title" name="title" />
-          </div>
-          <br />
-          <div id="textarea-large" placeholder="votre message">
-            <label for="post"></label>
-            <b-form-input
-              id="title"
-              placeholder="Votre message"
-              type="text"
-              v-model="post"
-              name="post"
-            />
-          </div>
-          <br />
-          <div>
-            <label for="link"></label>
-            <b-form-input
-              id="link"
-              placeholder="Partager un lien"
-              type="link"
-              v-model="link"
-              name="link"
-            />
-            <br />
-            <b-button
-              variant="info"
-              @click="makeToast('Information')"
-              class="mb-2"
-              type="submit"
-              value="Submit"
-            >Envoyer</b-button>
-          </div>
-        </form>
-      </div>
-    </b-container>
-  </div>
+  <b-container fluid>
+    <div class="card">
+      <b-form @submit.prevent="onSubmit">
+        <h3>Ecrire un nouveau post</h3>
+        <b-form-group>
+          <label for="input-default"></label>
+          <b-form-input
+            id="title"
+            placeholder="titre"
+            type="text"
+            v-model="title"
+            name="title"
+          />
+        </b-form-group>
+        <br />
+        <b-form-group>
+          <label for="post"></label>
+          <b-form-input
+            id="post"
+            placeholder="Votre message"
+            type="text"
+            v-model="post"
+            name="post"
+            aria-label="Votre message"
+          />
+        </b-form-group>
+        <br />
+        <b-form-group>
+          <label for="link"></label>
+          <b-form-input
+            id="link"
+            placeholder="Partager un lien"
+            type="url"
+            v-model="link"
+            name="link"
+            aria-label="Partager un lien"
+          />
+          <b-form-text id="link-help-block"
+            >Vous pouvez partager ici le lien url de votre article ou celui de
+            votre vidéo YouTube.</b-form-text
+          >
+        </b-form-group>
+        <b-form-group>
+          <b-button
+            variant="info"
+            class="mb-2"
+            type="submit"
+            aria-label="Submit"
+            value="Submit"
+            >Envoyer</b-button
+          >
+        </b-form-group>
+      </b-form>
+    </div>
+  </b-container>
 </template>
 
 <script>
 import axios from "axios";
 export default {
   name: "AddNewPost",
-  data: function () {
+  data: function() {
     return {
       title: "",
       post: "",
@@ -56,19 +68,16 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
+    onSubmit(event) {
       const userId = localStorage.getItem("userId");
       const token = window.localStorage.getItem("userToken");
       var link = this.link;
 
-      if (link) {
-        if (link.includes("embed")) {
-          console.log(link);
-        } else {
-          const url = link.split("v=");
-          link = "https://www.youtube.com/embed/" + url[1];
-        }
+      if (link.includes("youtube")) {
+        const url = link.split("v=");
+        link = "https://www.youtube.com/embed/" + url[1];
       }
+
       axios
         .post(
           "http://localhost:3000/api/posts",
@@ -90,13 +99,7 @@ export default {
         .catch((error) => {
           console.log(error);
         });
-    },
-    makeToast(variant = null) {
-      this.$bvToast.toast("Votre message a été envoyé au modérateur", {
-        title: `Variant ${variant || "default"}`,
-        variant: variant,
-        solid: true,
-      });
+      event.target.reset();
     },
   },
 };
