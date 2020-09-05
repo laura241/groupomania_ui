@@ -8,6 +8,7 @@
               <tr>
                 <th>Commentaires</th>
               </tr>
+              <!-- Iteration over all comments with isPublic= false -->
               <tr v-for="(c, i) in comments" :key="c + i">
                 <td>
                   {{ c.user.lastName }}{{ c.user.firstName }}

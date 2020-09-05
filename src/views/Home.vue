@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <div class="home">
-      <img fluid alt="Vue logo" src="../assets/logo.png" />
+      <img fluid alt="Responsive image" src="../assets/logo.png" />
     </div>
   </b-container>
 </template>

@@ -10,8 +10,9 @@
         value="Submit"
         class="mb-2"
         size="sm"
-        >Valider</b-button
       >
+        <b-icon icon="check" aria-hidden="true"></b-icon>
+      </b-button>
     </form>
   </div>
 </template>
@@ -20,7 +21,7 @@
 import axios from "axios";
 export default {
   name: "ValidationButtonComment",
-  data: function() {
+  data: function () {
     return {
       validation: "",
     };

@@ -1,31 +1,27 @@
 <template>
-  <b-container fluid>
-    <b-row>
-      <div id="AdminPage">
-        <b-row>
-          <div>
-            <b-tabs content-class="mt-3" fill>
-              <b-tab title="Gestion des utilisateurs" active>
-                <p>
-                  <AllUsers />
-                </p>
-              </b-tab>
-              <b-tab title="Gestion des posts">
-                <p>
-                  <AllPosts />
-                </p>
-              </b-tab>
-              <b-tab title="Gestion des commentaires">
-                <p>
-                  <AllComments />
-                </p>
-              </b-tab>
-            </b-tabs>
-          </div>
-        </b-row>
-      </div>
-    </b-row>
-  </b-container>
+  <div fluid>
+    <div id="AdminPage">
+      <b-row>
+        <b-tabs content-class="mt-4" fill>
+          <b-tab title="Gestion des utilisateurs">
+            <p>
+              <AllUsers />
+            </p>
+          </b-tab>
+          <b-tab title="Gestion des posts">
+            <p>
+              <AllPosts />
+            </p>
+          </b-tab>
+          <b-tab title="Gestion des commentaires">
+            <p>
+              <AllComments />
+            </p>
+          </b-tab>
+        </b-tabs>
+      </b-row>
+    </div>
+  </div>
 </template>
 
 <script>

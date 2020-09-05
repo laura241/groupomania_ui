@@ -10,7 +10,13 @@
       v-model="comment"
     />
     <div class="input-group-append">
-      <button class="btn btn-primary" type="button" v-on:click="submitComment">
+      <button
+        v-b-tooltip.hover
+        title="Votre commentaire sera visible après modération"
+        class="btn btn-primary"
+        type="button"
+        v-on:click="submitComment"
+      >
         <b-iconstack font-scale="1">
           <b-icon stacked icon="check"></b-icon>
         </b-iconstack>
@@ -24,7 +30,7 @@ import axios from "axios";
 
 export default {
   name: "AddNewComment",
-  data: function() {
+  data: function () {
     return {
       comment: [],
     };
@@ -55,6 +61,7 @@ export default {
         .catch((error) => {
           console.log(error);
         });
+      this.comment = "";
     },
   },
 };

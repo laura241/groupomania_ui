@@ -10,8 +10,9 @@
         class="mb-2"
         size="sm"
         aria-label="Valider le post"
-        >Valider</b-button
       >
+        <b-icon icon="check" aria-hidden="true"></b-icon>
+      </b-button>
     </form>
   </div>
 </template>
@@ -20,7 +21,7 @@
 import axios from "axios";
 export default {
   name: "ValidationButton",
-  data: function() {
+  data: function () {
     return {
       validation: "",
     };

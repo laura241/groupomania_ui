@@ -7,6 +7,7 @@
             <tr>
               <th>Posts</th>
             </tr>
+            <!-- Iteration over all posts with isPublic= false -->
             <tr v-for="(p, i) in posts" :key="p + i">
               <td>
                 {{ p.user.firstName }}{{ p.user.lastName }}

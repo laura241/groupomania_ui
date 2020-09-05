@@ -1,66 +1,67 @@
 <template>
-  <b-container fluid>
-    <div class="card">
+  <div>
+    <b-card title="Ecrire un nouveau post" style="max-width: 20rem" class="mb-2">
       <b-form @submit.prevent="onSubmit">
-        <h3>Ecrire un nouveau post</h3>
-        <b-form-group>
-          <label for="input-default"></label>
-          <b-form-input
-            id="title"
-            placeholder="titre"
-            type="text"
-            v-model="title"
-            name="title"
-          />
-        </b-form-group>
-        <br />
-        <b-form-group>
-          <label for="post"></label>
-          <b-form-input
-            id="post"
-            placeholder="Votre message"
-            type="text"
-            v-model="post"
-            name="post"
-            aria-label="Votre message"
-          />
-        </b-form-group>
-        <br />
-        <b-form-group>
-          <label for="link"></label>
-          <b-form-input
-            id="link"
-            placeholder="Partager un lien"
-            type="url"
-            v-model="link"
-            name="link"
-            aria-label="Partager un lien"
-          />
-          <b-form-text id="link-help-block"
-            >Vous pouvez partager ici le lien url de votre article ou celui de
-            votre vidéo YouTube.</b-form-text
-          >
-        </b-form-group>
-        <b-form-group>
-          <b-button
-            variant="info"
-            class="mb-2"
-            type="submit"
-            aria-label="Submit"
-            value="Submit"
-            >Envoyer</b-button
-          >
-        </b-form-group>
+        <b-card-text>
+          <b-form-group>
+            <label for="input-default"></label>
+            <b-form-input id="title" placeholder="titre" type="text" v-model="title" name="title" />
+          </b-form-group>
+          <br />
+          <b-form-group>
+            <label for="post"></label>
+            <b-form-input
+              id="post"
+              placeholder="Votre message"
+              type="text"
+              v-model="post"
+              name="post"
+              aria-label="Votre message"
+            />
+          </b-form-group>
+          <br />
+          <b-form-group>
+            <label for="link"></label>
+            <b-form-input
+              id="link"
+              placeholder="Partager un lien"
+              type="url"
+              v-model="link"
+              name="link"
+              aria-label="Partager un lien"
+            />
+            <b-form-text id="link-help-block">
+              Vous pouvez partager ici le lien url de votre article ou celui de
+              votre vidéo YouTube.
+            </b-form-text>
+          </b-form-group>
+          <b-form-group>
+            <b-button
+              @click="$bvToast.show('newPost-toast')"
+              variant="info"
+              class="mb-2"
+              type="submit"
+              aria-label="Submit"
+              value="Submit"
+            >Envoyer</b-button>
+            <b-toast
+              id="newPost-toast"
+              title="Votre message a été envoyé"
+              static
+              no-auto-hide
+            >Il sera visible après validation du modérateur</b-toast>
+          </b-form-group>
+        </b-card-text>
       </b-form>
-    </div>
-  </b-container>
+    </b-card>
+  </div>
 </template>
 
 <script>
 import axios from "axios";
 export default {
   name: "AddNewPost",
-  data: function() {
+  data: function () {
     return {
       title: "",
       post: "",

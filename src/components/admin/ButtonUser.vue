@@ -3,13 +3,18 @@
     <div id="DeleteButton">
       <form @submit.prevent="onSubmit">
         <b-button
+          id="tooltip-target"
           pill
           variant="outline-success"
           type="submit"
           v-model="ButtonUser"
           value="Submit"
           aria-label="Bouton User"
-        >User</b-button>
+          >User</b-button
+        >
+        <b-tooltip target="tooltip-target" triggers="hover"
+          >Bouton user</b-tooltip
+        >
       </form>
     </div>
   </div>
@@ -19,7 +24,7 @@
 import axios from "axios";
 export default {
   name: "ButtonAdmin",
-  data: function () {
+  data: function() {
     return {
       ButtonUser: "",
     };

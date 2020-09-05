@@ -1,45 +1,42 @@
 <template>
   <b-container fluid>
     <div class="card card-container">
-      <table responsive stickyColumn="true">
+      <table>
         <tr>
-          <th>Prénom</th>
-          <th>Nom</th>
+          <th>Utilisateur</th>
           <th>Rôle</th>
-          <th></th>
-          <th>Posts</th>
-          <th>Commentaires</th>
+          <th>Participation</th>
         </tr>
+        <!-- Iteration over users -->
         <tr v-for="(u, i) in users" :key="u + i">
-          <td>{{ u.firstName }}</td>
-          <td>{{ u.lastName }}</td>
+          <td>{{ u.firstName }} {{ u.lastName }}</td>
           <td>
             {{ u.role }}
             <ButtonAdmin v-if="u.role === 'user'" v-bind:id="u.userId" />
+            <span class="spaceButton"></span>
             <ButtonUser v-if="u.role === 'admin'" v-bind:id="u.userId" />
           </td>
-
-          <td></td>
           <td>
             <!-- Posts modal -->
-            <b-button size="sm" v-b-modal="`posts-modal${u.userId}`"
-              >Voir les posts</b-button
-            >
+            <b-button
+              variant="outline-primary"
+              size="sm"
+              v-b-modal="`posts-modal${u.userId}`"
+            >Voir les posts</b-button>
             <b-modal :id="`posts-modal${u.userId}`">
               <div v-for="post in u.posts" :key="post.postId">
                 {{ post.title }} {{ post.post }}
                 {{ post.createdAt | moment("DD MM YYYY") }}
               </div>
             </b-modal>
-          </td>
-          <td>
+
             <!-- Comments modal -->
             <b-button
               v-on:click="() => getAllCommentsByUser(u.userId)"
               size="sm"
+              variant="outline-secondary"
               v-b-modal="`comments-modal${u.userId}`"
-              >Voir les comm.</b-button
-            >
+            >Voir les comm.</b-button>
             <b-modal :id="`comments-modal${u.userId}`">
               <div v-for="c in comments" :key="c.commentId">
                 {{ c.comment }}
@@ -101,3 +98,5 @@ export default {
   },
 };
 </script>
+
+
