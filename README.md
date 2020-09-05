@@ -1,4 +1,17 @@
-# groupomania_appli
+# Groupomania_appli
+
+This is the front end for Groupomania application. 
+For the back end server, follow this link : https://github.com/laura241/groupomania_api.
+
+## Tech
+* Vue CLI
+* Javascript
+* BootstrapVue
+
+### Prerequisites ###
+
+You will need to have Node and `npm` installed locally on your machine.
+
 
 ## Project setup
 ```
