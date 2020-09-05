@@ -1,0 +1,3 @@
+export const FORUM_POST = "FORUM_POST";
+export const FORUM_COMMENT = "FORUM_COMMENT";
+export const FORUM_SUCCESS = "FORUM_SUCCESS";

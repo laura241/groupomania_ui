@@ -1,13 +1,20 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/account">Account</router-link> |
-      <router-link to="/forum">Forum</router-link>
+  <b-container fluid>
+    <div id="app">
+      <MenuNav />
+      <router-view />
     </div>
-    <router-view />
-  </div>
+  </b-container>
 </template>
+
+<script>
+import MenuNav from "./components/nav/MenuNav";
+
+export default {
+  name: "App",
+  components: { MenuNav },
+};
+</script>
 
 <style>
 #app {
@@ -17,16 +24,13 @@
   text-align: center;
   color: #2c3e50;
 }
-
 #nav {
   padding: 30px;
 }
-
 #nav a {
   font-weight: bold;
   color: #2c3e50;
 }
-
 #nav a.router-link-exact-active {
   color: #42b983;
 }
