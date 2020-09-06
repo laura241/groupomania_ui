@@ -8,7 +8,7 @@
           <input
             id="lastName"
             type="text"
-            placehov-model="lastName"
+            v-model="lastName"
             name="lastName"
             placeholder="Nom"
             aria-label="Nom"
