@@ -105,8 +105,11 @@ export default {
           .post("/auth/signup", data)
           .then(() => {
             const { email, gpPassword } = this;
-            this.$store.dispatch(AUTH_REQUEST, { email, gpPassword });
-            this.$router.push("/dashboard");
+            this.$store
+              .dispatch(AUTH_REQUEST, { email, gpPassword })
+              .then(() => {
+                this.$router.push("/dashboard");
+              });
           })
           .catch((error) => {
             localStorage.removeItem("token");
