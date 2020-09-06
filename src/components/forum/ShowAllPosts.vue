@@ -19,7 +19,7 @@
                 </b-card-text>
               </div>
               <p>{{ l.post }}</p>
-              <b-link :href="'https//' + l.link" target="_blank">
+              <b-link :href="l.link" target="_blank">
                 {{
                 l.link
                 }}
@@ -54,7 +54,7 @@
                 <b-embed type="iframe" aspect="16by9" allowfullscreen v-bind:src="p.link"></b-embed>
               </div>
               <div v-else>
-                <b-link :href="'https//' + p.link" target="_blank">
+                <b-link :href="p.link" target="_blank">
                   {{
                   p.link
                   }}
